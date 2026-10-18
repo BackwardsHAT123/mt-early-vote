@@ -1,0 +1,131 @@
+<title>MT Early Vote 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--bg:#fafaf7;--fg:#1c2230;--mute:#667085;--card:#fff;--line:#e3e5ea;--acc:#1f5fa8;--acc2:#c2571a}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12161d;--fg:#e8ebf2;--mute:#9aa3b5;--card:#1a202b;--line:#2b3342;--acc:#6aa7f0;--acc2:#f09a62;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#12161d;--fg:#e8ebf2;--mute:#9aa3b5;--card:#1a202b;--line:#2b3342;--acc:#6aa7f0;--acc2:#f09a62;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header,main,footer{max-width:980px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;padding-top:18px;padding-bottom:10px}
+h1{font-size:1.1rem;margin:0}
+nav{display:flex;gap:14px;flex-wrap:wrap;font-size:.9rem;padding:8px 0;max-width:980px;margin:0 auto;border-bottom:1px solid var(--line)}
+a{color:var(--acc)}
+button,select,input{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+section{padding:28px 0 8px}
+h2{font-size:1.4rem;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 16px;font-size:.92rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stat b{display:block;font-size:2rem;line-height:1.1}
+.stat span{color:var(--mute);font-size:.85rem}
+.bar{height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{cursor:pointer;font-size:.85rem;color:var(--mute);user-select:none}
+.row{display:grid;grid-template-columns:110px 1fr 56px;gap:8px;align-items:center;font-size:.85rem;padding:2px 0}
+.row .t{background:var(--line);height:12px;border-radius:6px;position:relative}
+.row .t i{position:absolute;left:0;top:0;bottom:0;background:var(--acc);border-radius:6px}
+.row .t em{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--acc2)}
+.note{background:var(--card);border-left:4px solid var(--acc2);padding:10px 14px;border-radius:6px;font-size:.9rem}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
+@media(max-width:560px){.row{grid-template-columns:90px 1fr 48px}}
+</style>
+</head>
+<body>
+<header><h1>MT Early Vote 2026</h1><button id="theme" aria-label="Toggle theme">Theme</button></header>
+<nav><a href="#headline">Headline</a><a href="#counties">Counties</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
+<main>
+<section id="headline">
+<h2>Where 2026 stands</h2>
+<p class="sub">Montana general election absentee ballots, statewide. Snapshot compiled <span id="asof"></span>.</p>
+<div class="stats">
+<div class="stat"><b id="recv"></b><span>ballots received</span></div>
+<div class="stat"><b id="sent"></b><span>ballots sent</span></div>
+<div class="stat"><b id="pct"></b><span>returned so far</span></div>
+<div class="stat"><b id="dleft"></b><span>days to Election Day (Nov 3)</span></div>
+</div>
+<div class="bar" aria-hidden="true"><i id="barfill"></i></div>
+<p class="note" style="margin-top:16px">Montana publishes only county totals of absentee ballots sent and received. There is no public party, age, or ballot-level breakdown, and no in-person early voting count, so this tool covers less than the North Carolina one it is modeled on.</p>
+</section>
+
+<section id="counties">
+<h2>Counties</h2>
+<p class="sub">Share of mailed absentee ballots returned. The orange tick marks the statewide rate.</p>
+<div class="controls">
+<input id="q" type="search" placeholder="Search county" aria-label="Search county">
+<select id="sort" aria-label="Sort by">
+<option value="pct">Sort: % received</option><option value="recv">Sort: ballots received</option><option value="sent">Sort: ballots sent</option><option value="name">Sort: name</option>
+</select>
+</div>
+<div class="card" id="chart"></div>
+<h2 style="margin-top:28px;font-size:1.1rem">Table</h2>
+<div class="card"><table id="tbl"><thead><tr><th data-k="name">County</th><th data-k="sent">Sent</th><th data-k="recv">Received</th><th data-k="pct">% received</th><th data-k="out">Outstanding</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="size">
+<h2>County size vs. return rate</h2>
+<p class="sub">Each dot is a county: ballots sent (log scale) against percent received. Hover for details.</p>
+<div class="card"><svg id="sc" viewBox="0 0 640 320" width="100%" role="img" aria-label="Scatter of ballots sent versus percent returned"></svg></div>
+</section>
+
+<section id="methods">
+<h2>Methods and caveats</h2>
+<div class="card" style="font-size:.92rem">
+<p><b>Source.</b> Montana Secretary of State, <a href="https://sosmt.gov/elections/absentee-ballot-count/">2026 General Election Absentee Ballot Counts</a> (county election officials report; the state says it updates daily).</p>
+<p><b>Counting.</b> "Received" is absentee ballots returned to county offices, not necessarily accepted or counted. Rates divide by ballots sent, not registered voters.</p>
+<p><b>Lincoln County</b> shows 0 received in this snapshot, which most likely means it has not reported yet rather than that no ballots came back. It is included in the totals as published.</p>
+<p><b>Totals.</b> The dashboard's "sent" total (<span id="sent2"></span>) is lower than the 575,000+ the Secretary of State cited in an October 9 release, so the two may be counted at different times.</p>
+<p><b>History.</b> Only this one snapshot is embedded. Add a new entry to <code>SNAPSHOTS</code> in the page source each day to build a cumulative curve and compare against 2022 or 2024 once you have those counts.</p>
+<p><b>Not affiliated</b> with the Montana Secretary of State. Layout inspired by <a href="https://ncearly.peark.es/">NC Early Vote</a>.</p>
+</div>
+</section>
+</main>
+<footer>Independent analysis of public data. No cookies, trackers, or analytics.</footer>
+
+<script>
+const SNAPSHOTS=[{asof:"2026-10-18",electionDay:"2026-11-03",rows:[["Beaverhead",4049,233],["Big Horn",2947,284],["Blaine",1920,172],["Broadwater",3728,550],["Carbon",5618,460],["Carter",443,50],["Cascade",36141,5531],["Chouteau",2196,308],["Custer",3741,384],["Daniels",558,59],["Dawson",3661,332],["Deer Lodge",4116,641],["Fallon",1263,78],["Fergus",5160,875],["Flathead",52781,4434],["Gallatin",65745,3658],["Garfield",499,30],["Glacier",4072,256],["Golden Valley",420,73],["Granite",1566,125],["Hill",5571,1029],["Jefferson",6718,627],["Judith Basin",962,85],["Lake",14070,2130],["Lewis & Clark",36981,4007],["Liberty",725,83],["Lincoln",8928,0],["Madison",4920,144],["McCone",607,47],["Meagher",1006,51],["Mineral",2367,227],["Missoula",65664,10745],["Musselshell",2280,145],["Park",8798,851],["Petroleum",235,30],["Phillips",1980,114],["Pondera",2569,464],["Powder River",592,38],["Powell",2174,242],["Prairie",472,37],["Ravalli",22969,3079],["Richland",3055,232],["Roosevelt",2419,139],["Rosebud",2429,140],["Sanders",7115,283],["Sheridan",1476,164],["Silver Bow",13884,1024],["Stillwater",4175,383],["Sweet Grass",1853,331],["Teton",2926,423],["Toole",1468,263],["Treasure",305,49],["Valley",3684,246],["Wheatland",802,57],["Wibaux",338,23],["Yellowstone",82897,13707]],total:[520038,60172]}];
+function boot(SNAPSHOTS){
+const S=SNAPSHOTS[SNAPSHOTS.length-1];
+const N=n=>n.toLocaleString("en-US"),P=x=>(x*100).toFixed(1)+"%";
+const D=S.rows.map(([name,sent,recv])=>({name,sent,recv,pct:sent?recv/sent:0,out:sent-recv}));
+const [TS,TR]=S.total,TP=TR/TS;
+const $=id=>document.getElementById(id);
+$("asof").textContent=S.asof;$("recv").textContent=N(TR);$("sent").textContent=N(TS);$("sent2").textContent=N(TS);
+$("pct").textContent=P(TP);$("barfill").style.width=(TP*100)+"%";
+$("dleft").textContent=Math.max(0,Math.ceil((new Date(S.electionDay)-new Date(S.asof))/864e5));
+let key="pct",dir=-1,q="";
+function view(){
+ let r=D.filter(d=>d.name.toLowerCase().includes(q));
+ r.sort((a,b)=>key==="name"?dir*a.name.localeCompare(b.name):dir*(a[key]-b[key]));
+ const mx=Math.max(...D.map(d=>d.pct))||1;
+ $("chart").innerHTML=r.map(d=>`<div class="row"><span>${d.name}</span><div class="t"><i style="width:${d.pct/mx*100}%"></i><em style="left:${TP/mx*100}%"></em></div><span>${P(d.pct)}</span></div>`).join("")||"No match";
+ $("tbl").tBodies[0].innerHTML=r.map(d=>`<tr><td>${d.name}</td><td>${N(d.sent)}</td><td>${N(d.recv)}</td><td>${P(d.pct)}</td><td>${N(d.out)}</td></tr>`).join("")+
+  `<tr><td><b>Statewide</b></td><td><b>${N(TS)}</b></td><td><b>${N(TR)}</b></td><td><b>${P(TP)}</b></td><td><b>${N(TS-TR)}</b></td></tr>`;
+}
+$("q").oninput=e=>{q=e.target.value.toLowerCase();view()};
+$("sort").onchange=e=>{key=e.target.value;dir=key==="name"?1:-1;view()};
+document.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;dir=k===key?-dir:(k==="name"?1:-1);key=k;$("sort").value=["pct","recv","sent","name"].includes(k)?k:"pct";view()});
+view();
+// scatter
+(function(){
+ const W=640,H=320,m={l:50,r:14,t:10,b:36},svg=$("sc");
+ const x=v=>m.l+(Math.log10(v)-Math.log10(200))/(Math.log10(100000)-Math.log10(200))*(W-m.l-m.r);
+ const mxp=Math.ceil(Math.max(...D.map(d=>d.pct))*20)/20;
+ const y=v=>H-m.b-v/mxp*(H-m.t-m.b);
+ let s="";
+ for(let v=0;v<=mxp+1e-9;v+=0.05)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mute)">${Math.round(v*100)}%</text>`;
+ [300,1000,3000,10000,30000,100000].forEach(v=>s+=`<text x="${x(v)}" y="${H-14}" text-anchor="middle" font-size="11" fill="var(--mute)">${N(v)}</text>`);
+ s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(TP)}" y2="${y(TP)}" stroke="var(--acc2)" stroke-dasharray="4 3"/>`;
+ D.forEach(d=>s+=`<circle cx="${x(d.sent)}" cy="${y(d.pct)}" r="5" fill="var(--acc)" fill-opacity=".7"><title>${d.name}: ${N(d.sent)} sent, ${P(d.pct)} received</title></circle>`);
+ svg.innerHTML=s;
+})();
+}
+fetch("data/snapshots.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>boot(j.length?j:SNAPSHOTS)).catch(()=>boot(SNAPSHOTS));
+// theme
+$("theme").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"};
+</script>
