@@ -161,5 +161,5 @@ drawMap(D,TP);
 }
 fetch("data/snapshots.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>boot(j.length?j:SNAPSHOTS)).catch(()=>boot(SNAPSHOTS));
 // theme
-$("theme").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"};
+document.getElementById("theme").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"};
 </script>
