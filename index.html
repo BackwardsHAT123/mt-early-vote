@@ -38,7 +38,7 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 </head>
 <body>
 <header><h1>MT Early Vote 2026</h1><button id="theme" aria-label="Toggle theme">Theme</button></header>
-<nav><a href="#headline">Headline</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
+<nav><a href="#headline">Headline</a><a href="#curves">Curves</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
 <main>
 <section id="headline">
 <h2>Where 2026 stands</h2>
@@ -51,6 +51,17 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 </div>
 <div class="bar" aria-hidden="true"><i id="barfill"></i></div>
 <p class="note" style="margin-top:16px">Montana publishes only county totals of absentee ballots sent and received. There is no public party, age, or ballot-level breakdown, and no in-person early voting count, so this tool covers less than the North Carolina one it is modeled on.</p>
+</section>
+
+<section id="curves">
+<h2>Cumulative returns</h2>
+<p class="sub">Ballots received by days before Election Day (Nov 3). One point per daily snapshot, so the line fills in as the count grows.</p>
+<div class="controls">
+<select id="cv-sel" aria-label="Area"></select>
+<select id="cv-metric" aria-label="Metric"><option value="recv">Ballots received</option><option value="pct">% of ballots sent</option></select>
+</div>
+<div class="card"><svg id="cv" viewBox="0 0 640 300" width="100%" role="img" aria-label="Cumulative absentee ballots received by days before Election Day"></svg></div>
+<div class="card" style="margin-top:12px"><table id="cvt"><thead><tr><th>Snapshot</th><th>Days out</th><th>Received</th><th>Change</th><th>% of sent</th></tr></thead><tbody></tbody></table></div>
 </section>
 
 <section id="map">
@@ -158,6 +169,34 @@ drawMap(D,TP);
  D.forEach(d=>s+=`<circle cx="${x(d.sent)}" cy="${y(d.pct)}" r="5" fill="var(--acc)" fill-opacity=".7"><title>${d.name}: ${N(d.sent)} sent, ${P(d.pct)} received</title></circle>`);
  svg.innerHTML=s;
 })();
+ (function(){
+  const sel=$("cv-sel"),met=$("cv-metric"),svg=$("cv");
+  if(!sel.options.length)["Statewide"].concat(D.map(d=>d.name).sort()).forEach(n=>sel.add(new Option(n,n)));
+  const days=s=>Math.round((Date.parse(s.electionDay)-Date.parse(s.asof))/864e5);
+  const get=(s,n)=>{if(n==="Statewide")return s.total;const r=s.rows.find(x=>x[0]===n);return r?[r[1],r[2]]:[0,0]};
+  function draw(){
+   const n=sel.value,pc=met.value==="pct";
+   const pts=SNAPSHOTS.map(s=>{const [se,re]=get(s,n);return{d:days(s),sent:se,recv:re,v:pc?(se?re/se:0):re,asof:s.asof}}).sort((a,b)=>b.d-a.d);
+   const W=640,H=300,m={l:58,r:20,t:14,b:38};
+   const dmax=Math.max(30,Math.ceil(Math.max(...pts.map(p=>p.d))/5)*5);
+   const mx=Math.max(...pts.map(p=>p.v))||1;
+   const step=pc?(mx>.4?.1:.05):Math.pow(10,Math.floor(Math.log10(mx)))/(mx/Math.pow(10,Math.floor(Math.log10(mx)))<2?4:2);
+   const ymax=Math.max(step,Math.ceil(mx*1.1/step)*step);
+   const x=d=>m.l+(dmax-d)/dmax*(W-m.l-m.r),y=v=>H-m.b-v/ymax*(H-m.t-m.b);
+   const fmt=v=>pc?Math.round(v*100)+"%":N(v);
+   let o="";
+   for(let v=0;v<=ymax+1e-9;v+=step)o+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mute)">${fmt(v)}</text>`;
+   for(let d=dmax;d>=0;d-=5)o+=`<text x="${x(d)}" y="${H-18}" text-anchor="middle" font-size="11" fill="var(--mute)">${d===0?"Nov 3":d}</text>`;
+   o+=`<text x="${(m.l+W-m.r)/2}" y="${H-3}" text-anchor="middle" font-size="11" fill="var(--mute)">days before Election Day</text>`;
+   o+=`<line x1="${x(0)}" x2="${x(0)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--acc2)" stroke-dasharray="4 3"/>`;
+   if(pts.length>1)o+=`<path d="${pts.map((p,i)=>(i?"L":"M")+x(p.d)+","+y(p.v)).join("")}" fill="none" stroke="var(--acc)" stroke-width="2.5"/>`;
+   o+=pts.map(p=>`<circle cx="${x(p.d)}" cy="${y(p.v)}" r="4" fill="var(--acc)"><title>${p.asof}: ${N(p.recv)} received of ${N(p.sent)} sent (${P(p.sent?p.recv/p.sent:0)})</title></circle>`).join("");
+   const l=pts[pts.length-1];o+=`<text x="${x(l.d)}" y="${y(l.v)-10}" text-anchor="${l.d<8?"end":"middle"}" font-size="12" font-weight="600" fill="var(--fg)">${fmt(l.v)}</text>`;
+   svg.innerHTML=o;
+   $("cvt").tBodies[0].innerHTML=pts.slice().reverse().map((p,i,a)=>`<tr><td>${p.asof}</td><td>${p.d}</td><td>${N(p.recv)}</td><td>${i<a.length-1?"+"+N(p.recv-a[i+1].recv):"&ndash;"}</td><td>${P(p.sent?p.recv/p.sent:0)}</td></tr>`).join("");
+  }
+  sel.onchange=draw;met.onchange=draw;draw();
+ })();
 }
 fetch("data/snapshots.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>boot(j.length?j:SNAPSHOTS)).catch(()=>boot(SNAPSHOTS));
 // theme
