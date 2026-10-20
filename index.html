@@ -26,14 +26,16 @@ table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
 th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
 th:first-child,td:first-child{text-align:left}
 th{cursor:pointer;font-size:.85rem;color:var(--mute);user-select:none}
-.row{display:grid;grid-template-columns:110px 1fr 56px;gap:8px;align-items:center;font-size:.85rem;padding:2px 0}
+.row{display:grid;grid-template-columns:110px 1fr 56px 64px;gap:8px;align-items:center;font-size:.85rem;padding:2px 0}
 .row .t{background:var(--line);height:12px;border-radius:6px;position:relative}
 .row .t i{position:absolute;left:0;top:0;bottom:0;background:var(--acc);border-radius:6px}
 .row .t em{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--acc2)}
 .note{background:var(--card);border-left:4px solid var(--acc2);padding:10px 14px;border-radius:6px;font-size:.9rem}
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
-@media(max-width:560px){.row{grid-template-columns:90px 1fr 48px}}
+@media(max-width:560px){.row{grid-template-columns:90px 1fr 48px 52px}}
+.row.hd{color:var(--mute);font-size:.78rem;padding-bottom:6px}.row>span:nth-child(3),.row>span:nth-child(4){text-align:right;font-variant-numeric:tabular-nums}
+.lg{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--mute);margin-bottom:8px}.lg i{display:block;width:140px;height:10px;border-radius:5px;background:linear-gradient(90deg,#2f6fb5,#cfc8bb,#e0731f)}
 </style>
 </head>
 <body>
@@ -81,10 +83,10 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <div class="controls">
 <input id="q" type="search" placeholder="Search county" aria-label="Search county">
 <select id="sort" aria-label="Sort by">
-<option value="pct">Sort: % received</option><option value="recv">Sort: ballots received</option><option value="sent">Sort: ballots sent</option><option value="name">Sort: name</option>
+<option value="pct">Sort: % received</option><option value="chg">Sort: change since prior day</option><option value="recv">Sort: ballots received</option><option value="sent">Sort: ballots sent</option><option value="name">Sort: name</option>
 </select>
 </div>
-<div class="card" id="chart"></div>
+<div class="card"><div class="lg" id="lg"></div><div id="chart"></div></div>
 <h2 style="margin-top:28px;font-size:1.1rem">Table</h2>
 <div class="card"><table id="tbl"><thead><tr><th data-k="name">County</th><th data-k="sent">Sent</th><th data-k="recv">Received</th><th data-k="pct">% received</th><th data-k="out">Outstanding</th></tr></thead><tbody></tbody></table></div>
 </section>
@@ -137,6 +139,12 @@ function boot(SNAPSHOTS){
 const S=SNAPSHOTS[SNAPSHOTS.length-1];
 const N=n=>n.toLocaleString("en-US"),P=x=>(x*100).toFixed(1)+"%";
 const D=S.rows.map(([name,sent,recv])=>({name,sent,recv,pct:sent?recv/sent:0,out:sent-recv}));
+const PS=SNAPSHOTS.length>1?SNAPSHOTS[SNAPSHOTS.length-2]:null;
+const prev=n=>{const r=PS&&PS.rows.find(x=>x[0]===n);return r?r[2]:null};
+D.forEach(d=>{const p=prev(d.name);d.chg=p==null?null:d.recv-p});
+const cg=D.map(d=>d.chg).filter(v=>v!=null),cmin=Math.min(...cg),cmax=Math.max(...cg);
+const ST=[[47,111,181],[207,200,187],[224,115,31]];
+const col=v=>{if(v==null||!cg.length)return"var(--acc)";const t=cmax>cmin?(v-cmin)/(cmax-cmin):.5,u=t*2,i=Math.min(1,Math.floor(u)),f=u-i;return"rgb("+ST[i].map((c,k)=>Math.round(c+(ST[i+1][k]-c)*f)).join(",")+")"};
 const [TS,TR]=S.total,TP=TR/TS;
 const $=id=>document.getElementById(id);
 $("asof").textContent=S.asof;$("recv").textContent=N(TR);$("sent").textContent=N(TS);$("sent2").textContent=N(TS);
@@ -145,9 +153,10 @@ $("dleft").textContent=Math.max(0,Math.ceil((new Date(S.electionDay)-new Date(S.
 let key="pct",dir=-1,q="";
 function view(){
  let r=D.filter(d=>d.name.toLowerCase().includes(q));
- r.sort((a,b)=>key==="name"?dir*a.name.localeCompare(b.name):dir*(a[key]-b[key]));
+ r.sort((a,b)=>key==="name"?dir*a.name.localeCompare(b.name):dir*((a[key]??-1)-(b[key]??-1)));
  const mx=Math.max(...D.map(d=>d.pct))||1;
- $("chart").innerHTML=r.map(d=>`<div class="row"><span>${d.name}</span><div class="t"><i style="width:${d.pct/mx*100}%"></i><em style="left:${TP/mx*100}%"></em></div><span>${P(d.pct)}</span></div>`).join("")||"No match";
+ $("lg").innerHTML=cg.length?`<span>${N(cmin)}</span><i></i><span>${N(cmax)}</span><span>new ballots received since ${PS.asof} (bar color)</span>`:"No prior-day snapshot yet";
+ $("chart").innerHTML=r.length?`<div class="row hd"><span></span><span></span><span>% recv</span><span>Change</span></div>`+r.map(d=>`<div class="row"><span>${d.name}</span><div class="t"><i style="width:${d.pct/mx*100}%;background:${col(d.chg)}"></i><em style="left:${TP/mx*100}%"></em></div><span>${P(d.pct)}</span><span>${d.chg==null?"–":(d.chg>0?"+":"")+N(d.chg)}</span></div>`).join(""):"No match";
  $("tbl").tBodies[0].innerHTML=r.map(d=>`<tr><td>${d.name}</td><td>${N(d.sent)}</td><td>${N(d.recv)}</td><td>${P(d.pct)}</td><td>${N(d.out)}</td></tr>`).join("")+
   `<tr><td><b>Statewide</b></td><td><b>${N(TS)}</b></td><td><b>${N(TR)}</b></td><td><b>${P(TP)}</b></td><td><b>${N(TS-TR)}</b></td></tr>`;
 }
