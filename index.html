@@ -31,6 +31,10 @@ th{cursor:pointer;font-size:.85rem;color:var(--mute);user-select:none}
 .row .t{background:var(--line);height:12px;border-radius:6px;position:relative}
 .row .t i{position:absolute;left:0;top:0;bottom:0;background:var(--acc);border-radius:6px}
 .row .t em{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--acc2)}
+.rb{display:grid;grid-template-columns:minmax(110px,190px) 1fr 120px;gap:8px;align-items:center;font-size:.9rem;padding:3px 0}
+.rb .t{background:var(--line);height:14px;border-radius:7px;overflow:hidden}.rb .t i{display:block;height:100%}
+.rb span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:560px){.rb{grid-template-columns:90px 1fr 96px}}
 .note{background:var(--card);border-left:4px solid var(--acc2);padding:10px 14px;border-radius:6px;font-size:.9rem}
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
@@ -41,7 +45,7 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 </head>
 <body>
 <header><h1>MT Early Vote 2026</h1><button id="theme" aria-label="Toggle theme">Theme</button></header>
-<nav><a href="#headline">Headline</a><a href="#curves">Curves</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
+<nav><a href="#headline">Headline</a><a href="#curves">Curves</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#results">Results</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
 <main>
 <section id="headline">
 <h2>Where 2026 stands</h2>
@@ -91,6 +95,13 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <div class="card"><div class="lg" id="lg"></div><div id="chart"></div></div>
 <h2 style="margin-top:28px;font-size:1.1rem">Table</h2>
 <div class="card"><table id="tbl"><thead><tr><th data-k="name">County</th><th data-k="sent">Sent</th><th data-k="recv">Received</th><th data-k="pct">% received</th><th data-k="out">Outstanding</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="results">
+<h2>Election results</h2>
+<p class="sub" id="rs-sub">Results will appear here after polls close on Nov 3 (8 p.m. MT).</p>
+<div class="controls"><select id="rs-sel" aria-label="Contest" hidden></select></div>
+<div class="card" id="rs-out" hidden></div>
 </section>
 
 <section id="size">
@@ -218,6 +229,30 @@ drawMap(D,TP);
  })();
 }
 fetch("data/snapshots.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>boot(j.length?j:SNAPSHOTS)).catch(()=>boot(SNAPSHOTS));
+// results (data/results.json is written by scripts/results.py once the state posts results)
+(function(){
+ const $=id=>document.getElementById(id),N=n=>n.toLocaleString("en-US"),esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ const nm=c=>c.party?`${c.name.replace(/\s+/g," ")} (${c.party[0]})`:c.name;
+ const colr=c=>/^dem/i.test(c.party)?"#2f6fb5":/^rep/i.test(c.party)?"#c0392b":/^yes$/i.test(c.name)?"#2e8b57":/^no$/i.test(c.name)?"#c2571a":"#8a8f9c";
+ const grp=c=>/PRESIDENT|SENATOR|REPRESENTATIVE/i.test(c.title)?"Federal":/^(CI|LR|IR|C)-?\s?\d+/i.test(c.title)?"Ballot issues":"Statewide & courts";
+ function show(R,c){
+  const T=c.total.reduce((a,b)=>a+b,0)||1,lead=i=>c.total[i];
+  const bars=c.choices.map((ch,i)=>({ch,v:c.total[i],i})).sort((a,b)=>b.v-a.v).map(o=>`<div class="rb"><span>${esc(nm(o.ch))}</span><div class="t"><i style="width:${o.v/T*100}%;background:${colr(o.ch)}"></i></div><span>${N(o.v)} &middot; ${(o.v/T*100).toFixed(1)}%</span></div>`).join("");
+  const rows=Object.entries(c.counties).sort((a,b)=>a[0].localeCompare(b[0])).map(([n,v])=>{
+   const tot=v.reduce((a,b)=>a+b,0),ord=v.map((x,i)=>i).sort((a,b)=>v[b]-v[a]),w=ord[0],m=tot?(v[w]-(v[ord[1]]||0))/tot*100:0;
+   return `<tr><td>${esc(n)}</td><td style="color:${tot?colr(c.choices[w]):"inherit"}">${tot?esc(nm(c.choices[w])):"&ndash;"}</td><td>${tot?(v[w]/tot*100).toFixed(1)+"%":"&ndash;"}</td><td>${tot?"+"+m.toFixed(1):"&ndash;"}</td><td>${N(tot)}</td></tr>`}).join("");
+  $("rs-out").innerHTML=`<h3 style="margin:0 0 8px;font-size:1.05rem">${esc(c.title)}</h3>${bars}<p class="sub" style="margin:8px 0 0">${N(T)} votes counted statewide. Unofficial until canvassed.</p><table style="margin-top:14px"><thead><tr><th>County</th><th>Leader</th><th>Share</th><th>Margin (pts)</th><th>Votes</th></tr></thead><tbody>${rows}</tbody></table>`;
+ }
+ fetch("data/results.json").then(r=>r.ok?r.json():Promise.reject()).then(R=>{
+  if(!R.contests||!R.contests.length)return;
+  $("rs-sub").textContent=`${R.precincts||""}${R.updated?" \u00b7 updated "+R.updated:""}. Unofficial results from the Montana Secretary of State.`;
+  const sel=$("rs-sel"),groups={};
+  R.contests.forEach((c,i)=>(groups[grp(c)]=groups[grp(c)]||[]).push([c.title,i]));
+  ["Federal","Statewide & courts","Ballot issues"].filter(g=>groups[g]).forEach(g=>{const og=document.createElement("optgroup");og.label=g;groups[g].forEach(([t,i])=>og.appendChild(new Option(t,i)));sel.appendChild(og)});
+  sel.hidden=false;$("rs-out").hidden=false;
+  sel.onchange=()=>show(R,R.contests[sel.value]);sel.onchange();
+ }).catch(()=>{});
+})();
 // theme
 document.getElementById("theme").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"};
 </script>
