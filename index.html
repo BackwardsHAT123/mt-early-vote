@@ -63,7 +63,7 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 
 <section id="curves">
 <h2>Cumulative returns</h2>
-<p class="sub">Ballots received by days before Election Day (Nov 3). One point per daily snapshot, so the line fills in as the count grows. The dashed orange line is 2024 (statewide only), lined up by days before Election Day.</p>
+<p class="sub">Ballots received by days before Election Day (Nov 3). One point per daily snapshot, so the line fills in as the count grows. The dashed orange line is 2024 and the gray square is 2022 (statewide only), lined up by days before Election Day.</p>
 <div class="controls">
 <select id="cv-sel" aria-label="Area"></select>
 <select id="cv-metric" aria-label="Metric"><option value="recv">Ballots received</option><option value="pct">% of ballots sent</option></select>
@@ -117,7 +117,8 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <p><b>Counting.</b> "Received" is absentee ballots returned to county offices, not necessarily accepted or counted. Rates divide by ballots sent, not registered voters.</p>
 <p><b>Lincoln County</b> shows 0 received in this snapshot, which most likely means it has not reported yet rather than that no ballots came back. It is included in the totals as published.</p>
 <p><b>Totals.</b> The dashboard's "sent" total (<span id="sent2"></span>) is lower than the 575,000+ the Secretary of State cited in an October 9 release, so the two may be counted at different times.</p>
-<p><b>2024 comparison.</b> Statewide only. The state does not publish daily 2024 county counts, so the dashed line connects four published statewide figures for the 2024 general (Nov 5): about 125,000 received at 14 days out and about 285,000 at 8 days (both from Secretary of State releases, dates inferred from "two weeks" and "one week"), 312,814 on Oct 29 (7 days, Daily Montanan) and about 425,000 as of 5 p.m. Nov 4 (1 day). Values between those points are straight-line interpolations, so treat the same-day comparison as approximate.</p>
+<p><b>2024 comparison.</b> Statewide only. The state does not publish daily 2024 county counts, so the dashed line connects four published statewide figures for the 2024 general (Nov 5): about 125,000 received at 14 days out and about 285,000 at 8 days (both from Secretary of State releases, dates inferred from "two weeks" and "one week"), 312,814 on Oct 29 (7 days, Daily Montanan), 338,832 on Oct 30 (6 days) and 361,865 on Oct 31 (5 days) (both from Secretary of State counts reported by NBC Montana), and about 425,000 as of 5 p.m. Nov 4 (1 day). Values between those points are straight-line interpolations, so treat the same-day comparison as approximate.</p>
+<p><b>2022.</b> The only 2022 figure found is about 284,000 absentee ballots received the day before Election Day (Nov 7, 2022), as cited by Daily Montanan and other news outlets. No daily 2022 series was found, so it appears as a single marker rather than a line.</p>
 <p><b>History.</b> Only this one snapshot is embedded. Add a new entry to <code>SNAPSHOTS</code> in the page source each day to build a cumulative curve and compare against 2022 or 2024 once you have those counts.</p>
 <p><b>Not affiliated</b> with the Montana Secretary of State. Layout inspired by <a href="https://ncearly.peark.es/">NC Early Vote</a>.</p>
 </div>
@@ -151,7 +152,9 @@ function drawMap(D,TP){
 }
 // 2024 statewide absentee ballots received, by days before Election Day (Nov 5, 2024).
 // Sources: MT Secretary of State releases / Daily Montanan; rounded figures, so approximate.
-const REF24=[[14,125000],[8,285000],[7,312814],[1,425000]];
+const REF24=[[14,125000],[8,285000],[7,312814],[6,338832],[5,361865],[1,425000]];
+// 2022 general (Nov 8): only the day-before total was reported (news reports of the state figure), so it is a single marker.
+const REF22=[[1,284000]];
 const ref24=d=>{if(d>REF24[0][0]||d<REF24[REF24.length-1][0])return null;for(let i=0;i<REF24.length-1;i++){const [d0,v0]=REF24[i],[d1,v1]=REF24[i+1];if(d<=d0&&d>=d1)return v0+(v1-v0)*(d0-d)/(d0-d1)}return null};
 function boot(SNAPSHOTS){
 const S=SNAPSHOTS[SNAPSHOTS.length-1];
@@ -208,7 +211,7 @@ drawMap(D,TP);
    const W=640,H=300,m={l:58,r:20,t:14,b:38};
    const dmax=Math.max(30,Math.ceil(Math.max(...pts.map(p=>p.d))/5)*5);
    const sw=n==="Statewide"&&!pc;
-   const mx=Math.max(...pts.map(p=>p.v),...(sw?REF24.map(r=>r[1]):[]))||1;
+   const mx=Math.max(...pts.map(p=>p.v),...(sw?REF24.concat(REF22).map(r=>r[1]):[]))||1;
    const step=pc?(mx>.4?.1:.05):Math.pow(10,Math.floor(Math.log10(mx)))/(mx/Math.pow(10,Math.floor(Math.log10(mx)))<2?4:2);
    const ymax=Math.max(step,Math.ceil(mx*1.1/step)*step);
    const x=d=>m.l+(dmax-d)/dmax*(W-m.l-m.r),y=v=>H-m.b-v/ymax*(H-m.t-m.b);
@@ -218,7 +221,7 @@ drawMap(D,TP);
    for(let d=dmax;d>=0;d-=5)o+=`<text x="${x(d)}" y="${H-18}" text-anchor="middle" font-size="11" fill="var(--mute)">${d===0?"Nov 3":d}</text>`;
    o+=`<text x="${(m.l+W-m.r)/2}" y="${H-3}" text-anchor="middle" font-size="11" fill="var(--mute)">days before Election Day</text>`;
    o+=`<line x1="${x(0)}" x2="${x(0)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--acc2)" stroke-dasharray="4 3"/>`;
-   if(sw){o+=`<path d="${REF24.map((r,i)=>(i?"L":"M")+x(r[0])+","+y(r[1])).join("")}" fill="none" stroke="var(--acc2)" stroke-width="2" stroke-dasharray="6 4"/>`+REF24.map(r=>`<circle cx="${x(r[0])}" cy="${y(r[1])}" r="3.5" fill="var(--card)" stroke="var(--acc2)" stroke-width="2"><title>2024, ${r[0]} days out: ~${N(r[1])} received</title></circle>`).join("")+`<text x="${x(1)}" y="${y(425000)-10}" text-anchor="end" font-size="12" font-weight="600" fill="var(--acc2)">2024</text>`}
+   if(sw){o+=`<path d="${REF24.map((r,i)=>(i?"L":"M")+x(r[0])+","+y(r[1])).join("")}" fill="none" stroke="var(--acc2)" stroke-width="2" stroke-dasharray="6 4"/>`+REF24.map(r=>`<circle cx="${x(r[0])}" cy="${y(r[1])}" r="3.5" fill="var(--card)" stroke="var(--acc2)" stroke-width="2"><title>2024, ${r[0]} days out: ~${N(r[1])} received</title></circle>`).join("")+`<text x="${x(1)}" y="${y(425000)-10}" text-anchor="end" font-size="12" font-weight="600" fill="var(--acc2)">2024</text>`+REF22.map(r=>`<rect x="${x(r[0])-4}" y="${y(r[1])-4}" width="8" height="8" fill="var(--mute)"><title>2022, ${r[0]} day out: ~${N(r[1])} received</title></rect><text x="${x(r[0])-8}" y="${y(r[1])+4}" text-anchor="end" font-size="12" font-weight="600" fill="var(--mute)">2022</text>`).join("")}
    if(pts.length>1)o+=`<path d="${pts.map((p,i)=>(i?"L":"M")+x(p.d)+","+y(p.v)).join("")}" fill="none" stroke="var(--acc)" stroke-width="2.5"/>`;
    o+=pts.map(p=>`<circle cx="${x(p.d)}" cy="${y(p.v)}" r="4" fill="var(--acc)"><title>${p.asof}: ${N(p.recv)} received of ${N(p.sent)} sent (${P(p.sent?p.recv/p.sent:0)})</title></circle>`).join("");
    const l=pts[pts.length-1];o+=`<text x="${x(l.d)}" y="${y(l.v)-10}" text-anchor="${l.d<8?"end":"middle"}" font-size="12" font-weight="600" fill="var(--fg)">${fmt(l.v)}</text>`;
