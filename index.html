@@ -45,7 +45,7 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 </head>
 <body>
 <header><h1>MT Early Vote 2026</h1><button id="theme" aria-label="Toggle theme">Theme</button></header>
-<nav><a href="#headline">Headline</a><a href="#curves">Curves</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#results">Results</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
+<nav><a href="#headline">Headline</a><a href="#curves">Curves</a><a href="#outlook">Outlook</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#results">Results</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
 <main>
 <section id="headline">
 <h2>Where 2026 stands</h2>
@@ -69,7 +69,18 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <select id="cv-metric" aria-label="Metric"><option value="recv">Ballots received</option><option value="pct">% of ballots sent</option></select>
 </div>
 <div class="card"><svg id="cv" viewBox="0 0 640 300" width="100%" role="img" aria-label="Cumulative absentee ballots received by days before Election Day"></svg></div>
+<div class="card" style="margin-top:12px"><h3 style="margin:0 0 6px;font-size:1rem">New ballots per snapshot</h3><svg id="dv" viewBox="0 0 640 170" width="100%" role="img" aria-label="New absentee ballots received between snapshots"></svg><p class="sub" id="mv" style="margin:8px 0 0"></p></div>
 <div class="card" style="margin-top:12px"><table id="cvt"><thead><tr><th>Snapshot</th><th>Days out</th><th>Received</th><th>Change</th><th>% of sent</th><th>2024 same day</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="outlook">
+<h2>Outlook</h2>
+<p class="sub">A rough projection from 2024's return pace, plus where the uncounted ballots are. Statewide estimates only; they assume 2026 follows 2024's shape.</p>
+<div class="stats" id="ol-stats"></div>
+<p class="note" style="margin-top:12px" id="ol-note"></p>
+<h3 style="margin:22px 0 6px;font-size:1.05rem">Outstanding ballots by county</h3>
+<p class="sub">Ballots sent but not yet received, largest first. Percent is the county's share of all outstanding ballots.</p>
+<div class="card" id="ol-out"></div>
 </section>
 
 <section id="map">
@@ -89,12 +100,12 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <div class="controls">
 <input id="q" type="search" placeholder="Search county" aria-label="Search county">
 <select id="sort" aria-label="Sort by">
-<option value="pct">Sort: % received</option><option value="chg">Sort: change since prior day</option><option value="recv">Sort: ballots received</option><option value="sent">Sort: ballots sent</option><option value="name">Sort: name</option>
+<option value="pct">Sort: % received</option><option value="p24">Sort: % of 2024 votes</option><option value="p22">Sort: % of 2022 votes</option><option value="chg">Sort: change since prior day</option><option value="recv">Sort: ballots received</option><option value="sent">Sort: ballots sent</option><option value="name">Sort: name</option>
 </select>
 </div>
 <div class="card"><div class="lg" id="lg"></div><div id="chart"></div></div>
 <h2 style="margin-top:28px;font-size:1.1rem">Table</h2>
-<div class="card"><table id="tbl"><thead><tr><th data-k="name">County</th><th data-k="sent">Sent</th><th data-k="recv">Received</th><th data-k="pct">% received</th><th data-k="out">Outstanding</th></tr></thead><tbody></tbody></table></div>
+<div class="card"><table id="tbl"><thead><tr><th data-k="name">County</th><th data-k="sent">Sent</th><th data-k="recv">Received</th><th data-k="pct">% received</th><th data-k="out">Outstanding</th><th data-k="p24" title="Ballots received so far as a share of votes cast in the top race in 2024">% of 2024 votes</th><th data-k="p22" title="Same, vs. 2022">% of 2022 votes</th></tr></thead><tbody></tbody></table></div>
 </section>
 
 <section id="results">
@@ -119,6 +130,7 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <p><b>Totals.</b> The dashboard's "sent" total (<span id="sent2"></span>) is lower than the 575,000+ the Secretary of State cited in an October 9 release, so the two may be counted at different times.</p>
 <p><b>2024 comparison.</b> Statewide only. The state does not publish daily 2024 county counts, so the dashed line connects four published statewide figures for the 2024 general (Nov 5): about 125,000 received at 14 days out and about 285,000 at 8 days (both from Secretary of State releases, dates inferred from "two weeks" and "one week"), 312,814 on Oct 29 (7 days, Daily Montanan), 338,832 on Oct 30 (6 days) and 361,865 on Oct 31 (5 days) (both from Secretary of State counts reported by NBC Montana), and about 425,000 as of 5 p.m. Nov 4 (1 day). Values between those points are straight-line interpolations, so treat the same-day comparison as approximate.</p>
 <p><b>2022.</b> The only 2022 figure found is about 284,000 absentee ballots received the day before Election Day (Nov 7, 2022), as cited by Daily Montanan and other news outlets. No daily 2022 series was found, so it appears as a single marker rather than a line.</p>
+<p><b>County comparisons.</b> "% of 2024 votes" and "% of 2022 votes" divide ballots received so far by votes cast in the top race that year (2024: President; 2022: U.S. House, both districts), from the Secretary of State's results. They are not final turnout, and 2026 ballots still arriving will keep raising them. Data is in <code>data/history.json</code>, built by <code>scripts/history.py</code>.</p>
 <p><b>History.</b> Only this one snapshot is embedded. Add a new entry to <code>SNAPSHOTS</code> in the page source each day to build a cumulative curve and compare against 2022 or 2024 once you have those counts.</p>
 <p><b>Not affiliated</b> with the Montana Secretary of State. Layout inspired by <a href="https://ncearly.peark.es/">NC Early Vote</a>.</p>
 </div>
@@ -172,6 +184,9 @@ $("asof").textContent=S.asof;$("recv").textContent=N(TR);$("sent").textContent=N
 $("pct").textContent=P(TP);$("barfill").style.width=(TP*100)+"%";
 const dl=Math.max(0,Math.ceil((new Date(S.electionDay)-new Date(S.asof))/864e5));$("dleft").textContent=dl;
 const r24=ref24(dl);if(r24!=null){const dv=(TR-r24)/r24;$("cmp24").textContent=(dv>=0?"+":"")+(dv*100).toFixed(0)+"%";$("cmp24l").textContent="vs. ~"+N(Math.round(r24/1000)*1000)+" in 2024, "+dl+" days out"}
+let HIST=null;const PC=v=>v==null?"&ndash;":P(v);
+const REG26=805418; // registered voters, Oct 27 (Daily Montanan); approximate
+function enrich(){D.forEach(d=>{[["24","2024"],["22","2022"]].forEach(([k,y])=>{const hv=HIST&&HIST[y].countyVotes[d.name];d["p"+k]=hv?d.recv/hv:null})})}
 let key="pct",dir=-1,q="";
 function view(){
  let r=D.filter(d=>d.name.toLowerCase().includes(q));
@@ -179,14 +194,34 @@ function view(){
  const mx=Math.max(...D.map(d=>d.pct))||1;
  $("lg").innerHTML=cg.length?`<span>${N(cmin)}</span><i></i><span>${N(cmax)}</span><span>new ballots received since ${PS.asof} (bar color)</span>`:"No prior-day snapshot yet";
  $("chart").innerHTML=r.length?`<div class="row hd"><span></span><span></span><span>% recv</span><span>Change</span></div>`+r.map(d=>`<div class="row"><span>${d.name}</span><div class="t"><i style="width:${d.pct/mx*100}%;background:${col(d.chg)}"></i><em style="left:${TP/mx*100}%"></em></div><span>${P(d.pct)}</span><span>${d.chg==null?"–":(d.chg>0?"+":"")+N(d.chg)}</span></div>`).join(""):"No match";
- $("tbl").tBodies[0].innerHTML=r.map(d=>`<tr><td>${d.name}</td><td>${N(d.sent)}</td><td>${N(d.recv)}</td><td>${P(d.pct)}</td><td>${N(d.out)}</td></tr>`).join("")+
-  `<tr><td><b>Statewide</b></td><td><b>${N(TS)}</b></td><td><b>${N(TR)}</b></td><td><b>${P(TP)}</b></td><td><b>${N(TS-TR)}</b></td></tr>`;
+ $("tbl").tBodies[0].innerHTML=r.map(d=>`<tr><td>${d.name}</td><td>${N(d.sent)}</td><td>${N(d.recv)}</td><td>${P(d.pct)}</td><td>${N(d.out)}</td><td>${PC(d.p24)}</td><td>${PC(d.p22)}</td></tr>`).join("")+
+  `<tr><td><b>Statewide</b></td><td><b>${N(TS)}</b></td><td><b>${N(TR)}</b></td><td><b>${P(TP)}</b></td><td><b>${N(TS-TR)}</b></td><td><b>${HIST?P(TR/HIST["2024"].totalTurnout):"&ndash;"}</b></td><td><b>${HIST?P(TR/HIST["2022"].totalTurnout):"&ndash;"}</b></td></tr>`;
 }
 $("q").oninput=e=>{q=e.target.value.toLowerCase();view()};
 $("sort").onchange=e=>{key=e.target.value;dir=key==="name"?1:-1;view()};
-document.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;dir=k===key?-dir:(k==="name"?1:-1);key=k;$("sort").value=["pct","recv","sent","name"].includes(k)?k:"pct";view()});
+document.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;dir=k===key?-dir:(k==="name"?1:-1);key=k;$("sort").value=["pct","p24","p22","recv","sent","name"].includes(k)?k:"pct";view()});
 view();
 drawMap(D,TP);
+// biggest movers since the prior snapshot
+if(PS){const mv=D.filter(d=>d.chg!=null&&d.chg>0).sort((a,b)=>b.chg-a.chg).slice(0,6);
+ $("mv").textContent=mv.length?"Biggest movers since "+PS.asof+": "+mv.map(d=>d.name+" +"+N(d.chg)).join(", ")+".":"No county added ballots since "+PS.asof+"."}
+// outlook
+(function(){
+ const box=$("ol-stats"),note=$("ol-note");
+ const f=ref24(1)&&ref24(dl)?ref24(1)/ref24(dl):null;
+ let h="";
+ if(f&&dl>=1&&dl<=14){
+  const proj=Math.round(TR*f/1000)*1000,lo=Math.round(proj*(612423/425000)/1000)*1000,hi=Math.round(proj*(468326/284000)/1000)*1000;
+  const t=(b,l)=>`<div class="stat"><b>${b}</b><span>${l}</span></div>`;
+  box.innerHTML=t("~"+N(proj),"projected absentee ballots received by the day before Election Day")+
+   t("~"+N(Math.min(lo,hi))+"&ndash;"+N(Math.max(lo,hi)),"implied total votes cast (2024 and 2022 ratios)")+
+   t(Math.round(Math.min(lo,hi)/REG26*100)+"&ndash;"+Math.round(Math.max(lo,hi)/REG26*100)+"%","implied turnout of ~"+N(REG26)+" registered voters");
+  note.textContent="Method: today's received ballots times how much 2024 added between now ("+dl+" days out) and the day before Election Day (about "+P(f-1)+" more). Total votes cast applies the final-turnout-to-day-before-absentee ratio from 2024 (612,423 / ~425,000) and 2022 (468,326 / ~284,000). The 2024 curve rests on a handful of published counts, so treat this as a rough range, not a forecast.";
+ }else{box.innerHTML="";note.textContent=dl<1?"Election Day is here; see Results.":"The projection starts 14 days before Election Day, the earliest point on the 2024 comparison curve."}
+ const to=D.reduce((a,d)=>a+d.out,0)||1,top=D.slice().sort((a,b)=>b.out-a.out).slice(0,12),mo=top[0]?top[0].out:1;
+ $("ol-out").innerHTML=top.map(d=>`<div class="rb"><span>${d.name}</span><div class="t"><i style="width:${d.out/mo*100}%;background:var(--acc)"></i></div><span>${N(d.out)} &middot; ${(d.out/to*100).toFixed(1)}%</span></div>`).join("");
+})();
+fetch("data/history.json").then(r=>r.ok?r.json():Promise.reject()).then(H=>{HIST=H;window.HIST24=H["2024"];enrich();view()}).catch(()=>{}).then(()=>{window.MT={D,S};if(window.initResults)window.initResults()});
 // scatter
 (function(){
  const W=640,H=320,m={l:50,r:14,t:10,b:36},svg=$("sc");
@@ -226,6 +261,14 @@ drawMap(D,TP);
    o+=pts.map(p=>`<circle cx="${x(p.d)}" cy="${y(p.v)}" r="4" fill="var(--acc)"><title>${p.asof}: ${N(p.recv)} received of ${N(p.sent)} sent (${P(p.sent?p.recv/p.sent:0)})</title></circle>`).join("");
    const l=pts[pts.length-1];o+=`<text x="${x(l.d)}" y="${y(l.v)-10}" text-anchor="${l.d<8?"end":"middle"}" font-size="12" font-weight="600" fill="var(--fg)">${fmt(l.v)}</text>`;
    svg.innerHTML=o;
+   (function(){
+    const b=pts.map((p,i)=>i?{l:p.asof.slice(5),v:p.recv-pts[i-1].recv}:null).filter(Boolean),dv=$("dv");
+    if(!b.length){dv.innerHTML=`<text x="320" y="85" text-anchor="middle" font-size="12" fill="var(--mute)">Needs two snapshots</text>`;return}
+    const W=640,H=170,m={l:58,r:14,t:16,b:30},mx=Math.max(...b.map(x=>x.v),1),bw=(W-m.l-m.r)/b.length,y=v=>H-m.b-v/mx*(H-m.t-m.b);
+    let q=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/><text x="${m.l-6}" y="${y(mx)+4}" text-anchor="end" font-size="11" fill="var(--mute)">${N(mx)}</text><text x="${m.l-6}" y="${y(0)+4}" text-anchor="end" font-size="11" fill="var(--mute)">0</text>`;
+    q+=b.map((x,i)=>`<rect x="${m.l+i*bw+bw*.15}" y="${y(Math.max(x.v,0))}" width="${bw*.7}" height="${y(0)-y(Math.max(x.v,0))}" fill="var(--acc)" rx="2"><title>${x.l}: ${x.v>=0?"+":""}${N(x.v)}</title></rect>`+(b.length<=16||i%Math.ceil(b.length/12)===0?`<text x="${m.l+i*bw+bw/2}" y="${H-12}" text-anchor="middle" font-size="10" fill="var(--mute)">${x.l}</text>`:"")).join("");
+    dv.innerHTML=q;
+   })();
    $("cvt").tBodies[0].innerHTML=pts.slice().reverse().map((p,i,a)=>`<tr><td>${p.asof}</td><td>${p.d}</td><td>${N(p.recv)}</td><td>${i<a.length-1?"+"+N(p.recv-a[i+1].recv):"&ndash;"}</td><td>${P(p.sent?p.recv/p.sent:0)}</td><td>${n==="Statewide"&&ref24(p.d)!=null?"~"+N(Math.round(ref24(p.d)/1000)*1000):"&ndash;"}</td></tr>`).join("");
   }
   sel.onchange=draw;met.onchange=draw;draw();
@@ -233,18 +276,39 @@ drawMap(D,TP);
 }
 fetch("data/snapshots.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>boot(j.length?j:SNAPSHOTS)).catch(()=>boot(SNAPSHOTS));
 // results (data/results.json is written by scripts/results.py once the state posts results)
-(function(){
+window.initResults=function(){
  const $=id=>document.getElementById(id),N=n=>n.toLocaleString("en-US"),esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
  const nm=c=>c.party?`${c.name.replace(/\s+/g," ")} (${c.party[0]})`:c.name;
  const colr=c=>/^dem/i.test(c.party)?"#2f6fb5":/^rep/i.test(c.party)?"#c0392b":/^yes$/i.test(c.name)?"#2e8b57":/^no$/i.test(c.name)?"#c2571a":"#8a8f9c";
  const grp=c=>/PRESIDENT|SENATOR|REPRESENTATIVE/i.test(c.title)?"Federal":/^(CI|LR|IR|C)-?\s?\d+/i.test(c.title)?"Ballot issues":"Statewide & courts";
+ const key=t=>t.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,30);
+ const pi=(c,re)=>c.choices.findIndex(x=>re.test(x.party));
+ // 2026 vs 2024 for the same office: D-R margin by county, turnout, and link to absentee return rate
+ function swing(c){
+  const H=window.HIST24,M=window.MT;if(!H||!M)return"";
+  const old=H.contests.find(o=>key(o.title)===key(c.title));if(!old)return"";
+  const d1=pi(c,/^dem/i),r1=pi(c,/^rep/i),d0=pi(old,/^dem/i),r0=pi(old,/^rep/i);
+  if([d1,r1,d0,r0].some(i=>i<0))return"";
+  const rate={};M.D.forEach(d=>rate[d.name]=d.pct);
+  const rows=[];
+  Object.entries(c.counties).forEach(([n,v])=>{const o=old.counties[n];if(!o)return;
+   const t1=v.reduce((a,b)=>a+b,0),t0=o.reduce((a,b)=>a+b,0);if(!t1||!t0)return;
+   const m1=(v[d1]-v[r1])/t1*100,m0=(o[d0]-o[r0])/t0*100;rows.push({n,m0,m1,sw:m1-m0,tv:t1/t0-1,rate:rate[n]})});
+  if(rows.length<5)return"";
+  const T1=c.total.reduce((a,b)=>a+b,0),T0=old.total.reduce((a,b)=>a+b,0),sm0=(old.total[d0]-old.total[r0])/T0*100,sm1=(c.total[d1]-c.total[r1])/T1*100;
+  const xs=rows.map(r=>r.rate),ys=rows.map(r=>r.sw),mx=xs.reduce((a,b)=>a+b,0)/xs.length,my=ys.reduce((a,b)=>a+b,0)/ys.length;
+  const cov=xs.reduce((a,x,i)=>a+(x-mx)*(ys[i]-my),0),r=cov/Math.sqrt(xs.reduce((a,x)=>a+(x-mx)**2,0)*ys.reduce((a,y)=>a+(y-my)**2,0)||1);
+  const sg=v=>(v>=0?"+":"")+v.toFixed(1),dr=v=>(v>=0?"D+":"R+")+Math.abs(v).toFixed(1);
+  return `<h3 style="margin:22px 0 6px;font-size:1.05rem">Change vs. 2024 (same office)</h3><p class="sub">Statewide margin ${dr(sm0)} in 2024, ${dr(sm1)} now (${sg(sm1-sm0)} pts toward Democrats); votes in this race ${sg((T1/T0-1)*100)}% vs. 2024. Across counties, absentee return rate and swing correlate at r = ${r.toFixed(2)} (a weak link is anything near 0; this is not causal).</p><table><thead><tr><th>County</th><th>2024 margin</th><th>2026 margin</th><th>Swing (pts, + = more D)</th><th>Votes vs. 2024</th><th>Absentee return rate</th></tr></thead><tbody>${rows.sort((a,b)=>b.sw-a.sw).map(x=>`<tr><td>${esc(x.n)}</td><td>${dr(x.m0)}</td><td>${dr(x.m1)}</td><td>${sg(x.sw)}</td><td>${sg(x.tv*100)}%</td><td>${x.rate==null?"&ndash;":(x.rate*100).toFixed(1)+"%"}</td></tr>`).join("")}</tbody></table>`;
+ }
  function show(R,c){
   const T=c.total.reduce((a,b)=>a+b,0)||1,lead=i=>c.total[i];
   const bars=c.choices.map((ch,i)=>({ch,v:c.total[i],i})).sort((a,b)=>b.v-a.v).map(o=>`<div class="rb"><span>${esc(nm(o.ch))}</span><div class="t"><i style="width:${o.v/T*100}%;background:${colr(o.ch)}"></i></div><span>${N(o.v)} &middot; ${(o.v/T*100).toFixed(1)}%</span></div>`).join("");
   const rows=Object.entries(c.counties).sort((a,b)=>a[0].localeCompare(b[0])).map(([n,v])=>{
    const tot=v.reduce((a,b)=>a+b,0),ord=v.map((x,i)=>i).sort((a,b)=>v[b]-v[a]),w=ord[0],m=tot?(v[w]-(v[ord[1]]||0))/tot*100:0;
    return `<tr><td>${esc(n)}</td><td style="color:${tot?colr(c.choices[w]):"inherit"}">${tot?esc(nm(c.choices[w])):"&ndash;"}</td><td>${tot?(v[w]/tot*100).toFixed(1)+"%":"&ndash;"}</td><td>${tot?"+"+m.toFixed(1):"&ndash;"}</td><td>${N(tot)}</td></tr>`}).join("");
-  $("rs-out").innerHTML=`<h3 style="margin:0 0 8px;font-size:1.05rem">${esc(c.title)}</h3>${bars}<p class="sub" style="margin:8px 0 0">${N(T)} votes counted statewide. Unofficial until canvassed.</p><table style="margin-top:14px"><thead><tr><th>County</th><th>Leader</th><th>Share</th><th>Margin (pts)</th><th>Votes</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const sw=swing(c);
+  $("rs-out").innerHTML=`<h3 style="margin:0 0 8px;font-size:1.05rem">${esc(c.title)}</h3>${bars}<p class="sub" style="margin:8px 0 0">${N(T)} votes counted statewide. Unofficial until canvassed.</p><table style="margin-top:14px"><thead><tr><th>County</th><th>Leader</th><th>Share</th><th>Margin (pts)</th><th>Votes</th></tr></thead><tbody>${rows}</tbody></table>${sw}`;
  }
  fetch("data/results.json").then(r=>r.ok?r.json():Promise.reject()).then(R=>{
   if(!R.contests||!R.contests.length)return;
@@ -255,7 +319,7 @@ fetch("data/snapshots.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>boo
   sel.hidden=false;$("rs-out").hidden=false;
   sel.onchange=()=>show(R,R.contests[sel.value]);sel.onchange();
  }).catch(()=>{});
-})();
+};
 // theme
 document.getElementById("theme").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"};
 </script>
