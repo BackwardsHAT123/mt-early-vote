@@ -94,7 +94,13 @@ def main():
     form["__EVENTTARGET"], form["__EVENTARGUMENT"] = "ctl00$MainContent$Statewide", ""
     r = s.post(BASE + str(eid), data=form, timeout=180)
     if r.status_code != 200 or "spreadsheetml" not in r.headers.get("content-type", ""):
-        print("Export failed:", r.status_code, r.headers.get("content-type"))
+        # Before polls close the election page exists but the export errors; that is not a failure.
+        txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "|", page))
+        counted = [int(x) for x in re.findall(r"(?:Fully|Partially)\s*\|*\s*(\d+)", txt)]
+        if not any(counted):
+            print("eid", eid, "has no results yet (0 precincts reporting)")
+            return 0
+        print("Export failed:", r.status_code, r.headers.get("content-type"), r.url)
         return 1
     contests, precincts = parse(r.content)
     upd = re.search(r"Results last updated:\s*([^<\n]+?MT)", page)
