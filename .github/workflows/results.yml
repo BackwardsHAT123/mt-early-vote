@@ -1,8 +1,10 @@
 name: Update results
 on:
   schedule:
-    # Election night and the days after (UTC): every 20 minutes Nov 3-6
-    - cron: "*/20 * 3-6 11 *"
+    # Election night (UTC): first run 7:40 p.m. MT Nov 3 (02:40 UTC Nov 4), then every 20 minutes through Nov 6
+    - cron: "40 2 4 11 *"
+    - cron: "*/20 3-23 4 11 *"
+    - cron: "*/20 * 5-6 11 *"
     # Then daily through the canvass period
     - cron: "0 15 7-30 11 *"
   workflow_dispatch:
