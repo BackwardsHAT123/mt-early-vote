@@ -1,18 +1,20 @@
 <title>MT Early Vote 2026</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-:root{--bg:#fafaf7;--fg:#1c2230;--mute:#667085;--card:#fff;--line:#e3e5ea;--acc:#1f5fa8;--acc2:#c2571a}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12161d;--fg:#e8ebf2;--mute:#9aa3b5;--card:#1a202b;--line:#2b3342;--acc:#6aa7f0;--acc2:#f09a62;color-scheme:dark}}
-:root[data-theme=dark]{--bg:#12161d;--fg:#e8ebf2;--mute:#9aa3b5;--card:#1a202b;--line:#2b3342;--acc:#6aa7f0;--acc2:#f09a62;color-scheme:dark}
+:root{--tint:#e9f0fa;--bg:#fafaf7;--fg:#1c2230;--mute:#667085;--card:#fff;--line:#e3e5ea;--acc:#1f5fa8;--acc2:#c2571a}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--tint:#1a2536;--bg:#12161d;--fg:#e8ebf2;--mute:#9aa3b5;--card:#1a202b;--line:#2b3342;--acc:#6aa7f0;--acc2:#f09a62;color-scheme:dark}}
+:root[data-theme=dark]{--tint:#1a2536;--bg:#12161d;--fg:#e8ebf2;--mute:#9aa3b5;--card:#1a202b;--line:#2b3342;--acc:#6aa7f0;--acc2:#f09a62;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header,main,footer{max-width:980px;margin:0 auto}
 header{display:flex;justify-content:space-between;align-items:center;padding-top:18px;padding-bottom:10px}
-h1{font-size:1.1rem;margin:0}
+h1{font-size:1.9rem;line-height:1.15;margin:0}
+#lastupd{color:var(--mute);font-size:.88rem;margin:0 auto 4px;max-width:980px}
 nav{display:flex;gap:14px;flex-wrap:wrap;font-size:.9rem;padding:8px 0;max-width:980px;margin:0 auto;border-bottom:1px solid var(--line)}
 a{color:var(--acc)}
 button,select,input{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
 section{padding:28px 0 8px}
+#results.live{background:var(--tint);margin:20px -16px 0;padding:24px 16px 20px;border-radius:12px}
 h2{font-size:1.4rem;margin:0 0 4px}
 .sub{color:var(--mute);margin:0 0 16px;font-size:.92rem}
 .stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
@@ -45,7 +47,8 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 </head>
 <body>
 <header><h1>MT Early Vote 2026</h1><button id="theme" aria-label="Toggle theme">Theme</button></header>
-<nav><a href="#headline">Headline</a><a href="#curves">Curves</a><a href="#outlook">Outlook</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#results">Results</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
+<p id="lastupd">Last update: &hellip;</p>
+<nav><a href="#headline">Headline</a><a href="#results">Results</a><a href="#curves">Curves</a><a href="#outlook">Outlook</a><a href="#map">Map</a><a href="#counties">Counties</a><a href="#size">Size vs. return</a><a href="#methods">Methods</a></nav>
 <main>
 <section id="headline">
 <h2>Where 2026 stands</h2>
@@ -59,6 +62,13 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 </div>
 <div class="bar" aria-hidden="true"><i id="barfill"></i></div>
 <p class="note" style="margin-top:16px">Montana publishes only county totals of absentee ballots sent and received. There is no public party, age, or ballot-level breakdown, and no in-person early voting count, so this tool covers less than the North Carolina one it is modeled on.</p>
+</section>
+
+<section id="results">
+<h2>Election results</h2>
+<p class="sub" id="rs-sub">Results will appear here after polls close on Nov 3 (8 p.m. MT).</p>
+<div class="controls"><select id="rs-sel" aria-label="Contest" hidden></select></div>
+<div class="card" id="rs-out" hidden></div>
 </section>
 
 <section id="curves">
@@ -106,13 +116,6 @@ footer{color:var(--mute);font-size:.82rem;padding-top:24px;padding-bottom:40px}
 <div class="card"><div class="lg" id="lg"></div><div id="chart"></div></div>
 <h2 style="margin-top:28px;font-size:1.1rem">Table</h2>
 <div class="card"><table id="tbl"><thead><tr><th data-k="name">County</th><th data-k="sent">Sent</th><th data-k="recv">Received</th><th data-k="pct">% received</th><th data-k="out">Outstanding</th><th data-k="p24" title="Ballots received so far as a share of votes cast in the top race in 2024">% of 2024 votes</th><th data-k="p22" title="Same, vs. 2022">% of 2022 votes</th></tr></thead><tbody></tbody></table></div>
-</section>
-
-<section id="results">
-<h2>Election results</h2>
-<p class="sub" id="rs-sub">Results will appear here after polls close on Nov 3 (8 p.m. MT).</p>
-<div class="controls"><select id="rs-sel" aria-label="Contest" hidden></select></div>
-<div class="card" id="rs-out" hidden></div>
 </section>
 
 <section id="size">
@@ -180,7 +183,7 @@ const ST=[[47,111,181],[207,200,187],[224,115,31]];
 const col=v=>{if(v==null||!cg.length)return"var(--acc)";const t=cmax>cmin?(v-cmin)/(cmax-cmin):.5,u=t*2,i=Math.min(1,Math.floor(u)),f=u-i;return"rgb("+ST[i].map((c,k)=>Math.round(c+(ST[i+1][k]-c)*f)).join(",")+")"};
 const [TS,TR]=S.total,TP=TR/TS;
 const $=id=>document.getElementById(id);
-$("asof").textContent=S.asof;$("recv").textContent=N(TR);$("sent").textContent=N(TS);$("sent2").textContent=N(TS);
+$("asof").textContent=S.asof;window.setLast=()=>{const R=window.RES;$("lastupd").textContent="Last update: absentee counts "+S.asof+(R&&R.updated?" \u00b7 results "+R.updated:"")};window.setLast();$("recv").textContent=N(TR);$("sent").textContent=N(TS);$("sent2").textContent=N(TS);
 $("pct").textContent=P(TP);$("barfill").style.width=(TP*100)+"%";
 const dl=Math.max(0,Math.ceil((new Date(S.electionDay)-new Date(S.asof))/864e5));$("dleft").textContent=dl;
 const r24=ref24(dl);if(r24!=null){const dv=(TR-r24)/r24;$("cmp24").textContent=(dv>=0?"+":"")+(dv*100).toFixed(0)+"%";$("cmp24l").textContent="vs. ~"+N(Math.round(r24/1000)*1000)+" in 2024, "+dl+" days out"}
@@ -312,6 +315,7 @@ window.initResults=function(){
  }
  fetch("data/results.json").then(r=>r.ok?r.json():Promise.reject()).then(R=>{
   if(!R.contests||!R.contests.length)return;
+  window.RES=R;if(window.setLast)window.setLast();$("rs-out").parentElement.classList.add("live");
   $("rs-sub").textContent=`${R.precincts||""}${R.updated?" \u00b7 updated "+R.updated:""}. Unofficial results from the Montana Secretary of State.`;
   const sel=$("rs-sel"),groups={};
   R.contests.forEach((c,i)=>(groups[grp(c)]=groups[grp(c)]||[]).push([c.title,i]));
