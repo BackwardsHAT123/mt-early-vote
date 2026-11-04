@@ -283,7 +283,7 @@ window.initResults=function(){
  const $=id=>document.getElementById(id),N=n=>n.toLocaleString("en-US"),esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
  const nm=c=>c.party?`${c.name.replace(/\s+/g," ")} (${c.party[0]})`:c.name;
  const colr=c=>/^dem/i.test(c.party)?"#2f6fb5":/^rep/i.test(c.party)?"#c0392b":/^yes$/i.test(c.name)?"#2e8b57":/^no$/i.test(c.name)?"#c2571a":"#8a8f9c";
- const grp=c=>/PRESIDENT|SENATOR|REPRESENTATIVE/i.test(c.title)?"Federal":/^(CI|LR|IR|C)-?\s?\d+/i.test(c.title)?"Ballot issues":"Statewide & courts";
+ const grp=c=>/PRESIDENT|SENATOR|REPRESENTATIVE/i.test(c.title)?"Federal":/^(CI|LR|IR|I|C)-?\s?\d+/i.test(c.title)?"Ballot issues":"Statewide & courts";
  const key=t=>t.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,30);
  const pi=(c,re)=>c.choices.findIndex(x=>re.test(x.party));
  // 2026 vs 2024 for the same office: D-R margin by county, turnout, and link to absentee return rate

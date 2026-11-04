@@ -5,40 +5,29 @@ Source: the Secretary of State's results site, electionresults.mt.gov. Its
 a row per county. Exits quietly (code 0, file untouched) if results are not
 posted yet, so it is safe to run on a schedule.
 
-    python3 scripts/results.py                       # 2026 general, eid from config/probe
+    python3 scripts/results.py                       # 2026 general (the site default election)
     python3 scripts/results.py --eid 450002785 --match "NOVEMBER 5, 2024" --out /tmp/r.json
 """
-import argparse, html, io, json, pathlib, re, sys, time
+import argparse, html, io, json, pathlib, re, sys
 import requests, openpyxl
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CONFIG = ROOT / "data" / "results_config.json"
 BASE = "https://electionresults.mt.gov/ResultsExport.aspx?eid="
 SKIP = re.compile(r"^(JUDICIAL DISTRICT|STATE SENATE|STATE HOUSE|DISTRICT COURT|Shall Judge)", re.I)
-PROBE_RANGE = range(450002929, 450003300)  # eids after the 2026 primary (450002928)
+
+
+def export_url(eid):
+    """The site's live results sit behind the bare URL (the default election); eid=<n> pins an older one."""
+    return BASE + str(eid) if eid else BASE.split("?")[0]
 
 
 def get_form(session, eid):
-    r = session.get(BASE + str(eid), timeout=60)
+    r = session.get(export_url(eid), timeout=60)
     if r.status_code != 200:
         return None, None
     f = {m.group(1): html.unescape(m.group(2)) for m in
          re.finditer(r'<input[^>]*type="hidden"[^>]*name="([^"]+)"[^>]*value="([^"]*)"', r.text)}
     return r.text, f
-
-
-def find_eid(session, match):
-    """Use the configured eid, else probe forward from the 2026 primary and cache the hit."""
-    cfg = json.loads(CONFIG.read_text()) if CONFIG.exists() else {}
-    if cfg.get("eid"):
-        return cfg["eid"]
-    for eid in PROBE_RANGE:
-        page, _ = get_form(session, eid)
-        if page and match.lower() in page.lower():
-            CONFIG.write_text(json.dumps({"eid": eid}, indent=1))
-            return eid
-        time.sleep(0.15)
-    return None
 
 
 def parse(xlsx_bytes):
@@ -58,6 +47,8 @@ def parse(xlsx_bytes):
         for c in rows[hdr][2:]:
             parts = str(c).split("\n")
             choices.append({"name": parts[0].strip(), "party": parts[1].strip() if len(parts) > 1 else ""})
+        if any(re.search(r"COUNTY ISSUE", c["name"], re.I) for c in choices):
+            continue  # local issue, not statewide
         counties, total = {}, None
         for r in rows[hdr + 1:]:
             if r[1] is None:
@@ -83,28 +74,25 @@ def main():
 
     s = requests.Session()
     s.headers["User-Agent"] = "Mozilla/5.0"
-    eid = a.eid or find_eid(s, a.match)
-    if not eid:
-        print("No results posted yet for:", a.match)
-        return 0
+    eid = a.eid
     page, form = get_form(s, eid)
     if not page or a.match.lower() not in page.lower():
-        print("eid", eid, "is not", a.match)
+        print("Site is not showing:", a.match)
         return 0
     form["__EVENTTARGET"], form["__EVENTARGUMENT"] = "ctl00$MainContent$Statewide", ""
-    r = s.post(BASE + str(eid), data=form, timeout=180)
+    r = s.post(export_url(eid), data=form, timeout=180)
     if r.status_code != 200 or "spreadsheetml" not in r.headers.get("content-type", ""):
         # Before polls close the election page exists but the export errors; that is not a failure.
         txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "|", page))
         counted = [int(x) for x in re.findall(r"(?:Fully|Partially)\s*\|*\s*(\d+)", txt)]
         if not any(counted):
-            print("eid", eid, "has no results yet (0 precincts reporting)")
+            print("No results yet (0 precincts reporting)")
             return 0
         print("Export failed:", r.status_code, r.headers.get("content-type"), r.url)
         return 1
     contests, precincts = parse(r.content)
     upd = re.search(r"Results last updated:\s*([^<\n]+?MT)", page)
-    out = {"election": a.match, "eid": eid, "updated": upd.group(1) if upd else "",
+    out = {"election": a.match, "eid": eid or 0, "updated": upd.group(1) if upd else "",
            "precincts": precincts, "contests": contests}
     p = pathlib.Path(a.out)
     new = json.dumps(out, indent=1)

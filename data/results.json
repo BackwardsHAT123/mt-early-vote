@@ -1,0 +1,1927 @@
+{
+ "election": "GENERAL ELECTION - NOVEMBER 3, 2026",
+ "eid": 0,
+ "updated": "11/4/2026 5:35:22 AM MT",
+ "precincts": "Precincts 432 of 728 Reporting (Precincts Partially Reported: 296/728)",
+ "contests": [
+  {
+   "id": "04069",
+   "title": "UNITED STATES SENATOR",
+   "choices": [
+    {
+     "name": "KURT ALME",
+     "party": "Republican"
+    },
+    {
+     "name": "KYLE AUSTIN",
+     "party": "Libertarian"
+    },
+    {
+     "name": "ALANI BANKHEAD",
+     "party": "Democrat"
+    },
+    {
+     "name": "SETH BODNAR",
+     "party": "Independent"
+    }
+   ],
+   "total": [
+    215426,
+    8088,
+    52850,
+    165821
+   ],
+   "counties": {
+    "Beaverhead": [
+     2794,
+     70,
+     374,
+     1268
+    ],
+    "Big Horn": [
+     1295,
+     87,
+     996,
+     1109
+    ],
+    "Blaine": [
+     970,
+     49,
+     492,
+     656
+    ],
+    "Broadwater": [
+     2530,
+     99,
+     226,
+     881
+    ],
+    "Carbon": [
+     3308,
+     139,
+     617,
+     2031
+    ],
+    "Carter": [
+     565,
+     21,
+     23,
+     84
+    ],
+    "Cascade": [
+     14188,
+     514,
+     4158,
+     10647
+    ],
+    "Chouteau": [
+     1261,
+     59,
+     268,
+     689
+    ],
+    "Custer": [
+     2696,
+     91,
+     381,
+     1042
+    ],
+    "Daniels": [
+     593,
+     24,
+     49,
+     141
+    ],
+    "Dawson": [
+     2281,
+     80,
+     297,
+     686
+    ],
+    "Deer Lodge": [
+     1440,
+     77,
+     637,
+     1799
+    ],
+    "Fallon": [
+     931,
+     18,
+     67,
+     163
+    ],
+    "Fergus": [
+     3414,
+     120,
+     461,
+     1408
+    ],
+    "Flathead": [
+     24492,
+     620,
+     4729,
+     12570
+    ],
+    "Gallatin": [
+     16633,
+     594,
+     5911,
+     21850
+    ],
+    "Garfield": [
+     549,
+     15,
+     25,
+     64
+    ],
+    "Glacier": [
+     1151,
+     62,
+     1087,
+     1625
+    ],
+    "Golden Valley": [
+     294,
+     17,
+     24,
+     53
+    ],
+    "Granite": [
+     1074,
+     48,
+     163,
+     539
+    ],
+    "Hill": [
+     2299,
+     218,
+     865,
+     1650
+    ],
+    "Jefferson": [
+     3871,
+     136,
+     580,
+     2212
+    ],
+    "Judith Basin": [
+     758,
+     37,
+     64,
+     304
+    ],
+    "Lake": [
+     6524,
+     175,
+     1667,
+     4373
+    ],
+    "Lewis & Clark": [
+     13081,
+     518,
+     3110,
+     15798
+    ],
+    "Liberty": [
+     487,
+     18,
+     72,
+     196
+    ],
+    "Lincoln": [
+     4638,
+     108,
+     967,
+     1366
+    ],
+    "Madison": [
+     3191,
+     96,
+     524,
+     1421
+    ],
+    "McCone": [
+     663,
+     17,
+     41,
+     132
+    ],
+    "Meagher": [
+     622,
+     27,
+     50,
+     231
+    ],
+    "Mineral": [
+     1467,
+     66,
+     234,
+     628
+    ],
+    "Missoula": [
+     11962,
+     475,
+     5798,
+     29515
+    ],
+    "Musselshell": [
+     1815,
+     65,
+     140,
+     395
+    ],
+    "Park": [
+     3966,
+     125,
+     1161,
+     4172
+    ],
+    "Petroleum": [
+     199,
+     11,
+     4,
+     36
+    ],
+    "Phillips": [
+     1229,
+     34,
+     109,
+     311
+    ],
+    "Pondera": [
+     1354,
+     54,
+     224,
+     591
+    ],
+    "Powder River": [
+     665,
+     23,
+     43,
+     151
+    ],
+    "Powell": [
+     1733,
+     55,
+     197,
+     631
+    ],
+    "Prairie": [
+     403,
+     21,
+     41,
+     117
+    ],
+    "Ravalli": [
+     14229,
+     389,
+     2067,
+     7233
+    ],
+    "Richland": [
+     2636,
+     102,
+     307,
+     566
+    ],
+    "Roosevelt": [
+     1116,
+     50,
+     681,
+     704
+    ],
+    "Rosebud": [
+     1628,
+     73,
+     357,
+     698
+    ],
+    "Sanders": [
+     4515,
+     112,
+     610,
+     1316
+    ],
+    "Sheridan": [
+     944,
+     38,
+     173,
+     387
+    ],
+    "Silver Bow": [
+     4769,
+     332,
+     2494,
+     7222
+    ],
+    "Stillwater": [
+     3139,
+     125,
+     260,
+     1013
+    ],
+    "Sweet Grass": [
+     1208,
+     49,
+     140,
+     520
+    ],
+    "Teton": [
+     1768,
+     66,
+     265,
+     752
+    ],
+    "Toole": [
+     1090,
+     35,
+     145,
+     315
+    ],
+    "Treasure": [
+     285,
+     9,
+     14,
+     53
+    ],
+    "Valley": [
+     1938,
+     78,
+     241,
+     845
+    ],
+    "Wheatland": [
+     588,
+     14,
+     56,
+     199
+    ],
+    "Wibaux": [
+     349,
+     16,
+     27,
+     61
+    ],
+    "Yellowstone": [
+     31838,
+     1517,
+     8137,
+     20402
+    ]
+   }
+  },
+  {
+   "id": "04067",
+   "title": "UNITED STATES REPRESENTATIVE 1ST CONGRESSIONAL",
+   "choices": [
+    {
+     "name": "AARON FLINT",
+     "party": "Republican"
+    },
+    {
+     "name": "SAM FORSTAG",
+     "party": "Democrat"
+    },
+    {
+     "name": "NICK SHEEDY",
+     "party": "Libertarian"
+    }
+   ],
+   "total": [
+    105455,
+    113428,
+    6365
+   ],
+   "counties": {
+    "Beaverhead": [
+     2921,
+     1433,
+     152
+    ],
+    "Deer Lodge": [
+     1551,
+     2241,
+     171
+    ],
+    "Flathead": [
+     25194,
+     16067,
+     1117
+    ],
+    "Gallatin": [
+     17365,
+     26613,
+     1032
+    ],
+    "Glacier": [
+     1201,
+     2583,
+     143
+    ],
+    "Granite": [
+     1142,
+     620,
+     66
+    ],
+    "Lake": [
+     6849,
+     5519,
+     374
+    ],
+    "Lincoln": [
+     4565,
+     2123,
+     250
+    ],
+    "Madison": [
+     3333,
+     1732,
+     168
+    ],
+    "Mineral": [
+     1538,
+     723,
+     131
+    ],
+    "Missoula": [
+     13073,
+     33752,
+     938
+    ],
+    "Pondera": [
+     422,
+     219,
+     19
+    ],
+    "Powell": [
+     1770,
+     707,
+     134
+    ],
+    "Ravalli": [
+     14782,
+     8323,
+     791
+    ],
+    "Sanders": [
+     4619,
+     1631,
+     298
+    ],
+    "Silver Bow": [
+     5130,
+     9142,
+     581
+    ]
+   }
+  },
+  {
+   "id": "04068",
+   "title": "UNITED STATES REPRESENTATIVE 2ND CONGRESSIONAL",
+   "choices": [
+    {
+     "name": "TROY DOWNING",
+     "party": "Republican"
+    },
+    {
+     "name": "PATRICK MCCRACKEN",
+     "party": "Libertarian"
+    },
+    {
+     "name": "BRIAN J MILLER",
+     "party": "Democrat"
+    },
+    {
+     "name": "MICHAEL D EISENHAUER",
+     "party": "Independent"
+    }
+   ],
+   "total": [
+    125732,
+    3911,
+    69427,
+    16782
+   ],
+   "counties": {
+    "Big Horn": [
+     1534,
+     51,
+     1671,
+     215
+    ],
+    "Blaine": [
+     1065,
+     41,
+     927,
+     130
+    ],
+    "Broadwater": [
+     2707,
+     84,
+     647,
+     281
+    ],
+    "Carbon": [
+     3635,
+     112,
+     1825,
+     499
+    ],
+    "Carter": [
+     608,
+     15,
+     40,
+     25
+    ],
+    "Cascade": [
+     15653,
+     462,
+     10575,
+     2704
+    ],
+    "Chouteau": [
+     1395,
+     36,
+     687,
+     159
+    ],
+    "Custer": [
+     2844,
+     80,
+     1030,
+     226
+    ],
+    "Daniels": [
+     656,
+     7,
+     109,
+     37
+    ],
+    "Dawson": [
+     2485,
+     50,
+     663,
+     164
+    ],
+    "Fallon": [
+     993,
+     8,
+     104,
+     61
+    ],
+    "Fergus": [
+     3780,
+     111,
+     1148,
+     324
+    ],
+    "Garfield": [
+     574,
+     12,
+     39,
+     23
+    ],
+    "Golden Valley": [
+     320,
+     7,
+     49,
+     14
+    ],
+    "Hill": [
+     2587,
+     104,
+     1865,
+     463
+    ],
+    "Jefferson": [
+     4213,
+     130,
+     1948,
+     497
+    ],
+    "Judith Basin": [
+     864,
+     34,
+     171,
+     75
+    ],
+    "Lewis & Clark": [
+     14643,
+     636,
+     13802,
+     3225
+    ],
+    "Liberty": [
+     552,
+     12,
+     161,
+     41
+    ],
+    "McCone": [
+     720,
+     11,
+     89,
+     43
+    ],
+    "Meagher": [
+     678,
+     19,
+     154,
+     75
+    ],
+    "Musselshell": [
+     1959,
+     45,
+     299,
+     102
+    ],
+    "Park": [
+     4336,
+     188,
+     4010,
+     835
+    ],
+    "Petroleum": [
+     217,
+     4,
+     18,
+     13
+    ],
+    "Phillips": [
+     1333,
+     23,
+     246,
+     95
+    ],
+    "Pondera": [
+     1056,
+     29,
+     356,
+     104
+    ],
+    "Powder River": [
+     716,
+     14,
+     95,
+     49
+    ],
+    "Prairie": [
+     452,
+     7,
+     93,
+     30
+    ],
+    "Richland": [
+     2804,
+     55,
+     564,
+     190
+    ],
+    "Roosevelt": [
+     1226,
+     52,
+     1159,
+     112
+    ],
+    "Rosebud": [
+     1822,
+     48,
+     733,
+     143
+    ],
+    "Sheridan": [
+     1026,
+     25,
+     378,
+     100
+    ],
+    "Stillwater": [
+     3421,
+     79,
+     748,
+     269
+    ],
+    "Sweet Grass": [
+     1355,
+     37,
+     407,
+     112
+    ],
+    "Teton": [
+     1933,
+     56,
+     616,
+     226
+    ],
+    "Toole": [
+     1174,
+     29,
+     304,
+     72
+    ],
+    "Treasure": [
+     303,
+     3,
+     36,
+     18
+    ],
+    "Valley": [
+     2177,
+     36,
+     642,
+     231
+    ],
+    "Wheatland": [
+     651,
+     10,
+     151,
+     43
+    ],
+    "Wibaux": [
+     364,
+     19,
+     54,
+     21
+    ],
+    "Yellowstone": [
+     34901,
+     1130,
+     20814,
+     4736
+    ]
+   }
+  },
+  {
+   "id": "04070",
+   "title": "PUBLIC SERVICE COMMISSIONER, DISTRICT 1",
+   "choices": [
+    {
+     "name": "ANGELINE CHEEK",
+     "party": "Democrat"
+    },
+    {
+     "name": "JEFF PATTISON",
+     "party": "Republican"
+    }
+   ],
+   "total": [
+    26384,
+    50010
+   ],
+   "counties": {
+    "Big Horn": [
+     34,
+     213
+    ],
+    "Blaine": [
+     1050,
+     1096
+    ],
+    "Carter": [
+     55,
+     609
+    ],
+    "Cascade": [
+     9242,
+     10557
+    ],
+    "Chouteau": [
+     755,
+     1467
+    ],
+    "Custer": [
+     1178,
+     2924
+    ],
+    "Daniels": [
+     126,
+     659
+    ],
+    "Dawson": [
+     776,
+     2529
+    ],
+    "Fallon": [
+     144,
+     991
+    ],
+    "Garfield": [
+     53,
+     573
+    ],
+    "Golden Valley": [
+     58,
+     321
+    ],
+    "Hill": [
+     2132,
+     2833
+    ],
+    "Liberty": [
+     187,
+     565
+    ],
+    "McCone": [
+     111,
+     728
+    ],
+    "Musselshell": [
+     353,
+     2015
+    ],
+    "Phillips": [
+     284,
+     1387
+    ],
+    "Powder River": [
+     128,
+     711
+    ],
+    "Prairie": [
+     114,
+     460
+    ],
+    "Richland": [
+     678,
+     2874
+    ],
+    "Roosevelt": [
+     1228,
+     1292
+    ],
+    "Rosebud": [
+     495,
+     1698
+    ],
+    "Sheridan": [
+     433,
+     1033
+    ],
+    "Treasure": [
+     49,
+     296
+    ],
+    "Valley": [
+     667,
+     2418
+    ],
+    "Wibaux": [
+     65,
+     372
+    ],
+    "Yellowstone": [
+     5989,
+     9389
+    ]
+   }
+  },
+  {
+   "id": "04071",
+   "title": "PUBLIC SERVICE COMMISSIONER, DISTRICT 5",
+   "choices": [
+    {
+     "name": "ANNIE BUKACEK",
+     "party": "Republican"
+    },
+    {
+     "name": "KEVIN HAMM",
+     "party": "Democrat"
+    }
+   ],
+   "total": [
+    45290,
+    40837
+   ],
+   "counties": {
+    "Cascade": [
+     5052,
+     3132
+    ],
+    "Deer Lodge": [
+     61,
+     90
+    ],
+    "Flathead": [
+     11915,
+     8997
+    ],
+    "Glacier": [
+     1287,
+     2552
+    ],
+    "Granite": [
+     1202,
+     566
+    ],
+    "Lake": [
+     2537,
+     2213
+    ],
+    "Lewis & Clark": [
+     13029,
+     13521
+    ],
+    "Missoula": [
+     3487,
+     7198
+    ],
+    "Pondera": [
+     1497,
+     648
+    ],
+    "Powell": [
+     1879,
+     657
+    ],
+    "Sanders": [
+     171,
+     120
+    ],
+    "Teton": [
+     1983,
+     780
+    ],
+    "Toole": [
+     1190,
+     363
+    ]
+   }
+  },
+  {
+   "id": "04072",
+   "title": "SUPREME COURT JUSTICE #4",
+   "choices": [
+    {
+     "name": "AMY EDDY",
+     "party": "Non-Partisan"
+    },
+    {
+     "name": "DAN WILSON",
+     "party": "Non-Partisan"
+    }
+   ],
+   "total": [
+    249112,
+    170896
+   ],
+   "counties": {
+    "Beaverhead": [
+     2089,
+     2096
+    ],
+    "Big Horn": [
+     2075,
+     1277
+    ],
+    "Blaine": [
+     1237,
+     782
+    ],
+    "Broadwater": [
+     1617,
+     1904
+    ],
+    "Carbon": [
+     3161,
+     2674
+    ],
+    "Carter": [
+     185,
+     423
+    ],
+    "Cascade": [
+     17430,
+     10738
+    ],
+    "Chouteau": [
+     1197,
+     936
+    ],
+    "Custer": [
+     1891,
+     2121
+    ],
+    "Daniels": [
+     264,
+     475
+    ],
+    "Dawson": [
+     1459,
+     1715
+    ],
+    "Deer Lodge": [
+     2766,
+     1100
+    ],
+    "Fallon": [
+     349,
+     683
+    ],
+    "Fergus": [
+     2301,
+     2894
+    ],
+    "Flathead": [
+     20790,
+     19728
+    ],
+    "Gallatin": [
+     28393,
+     14051
+    ],
+    "Garfield": [
+     197,
+     382
+    ],
+    "Glacier": [
+     2478,
+     1252
+    ],
+    "Golden Valley": [
+     123,
+     237
+    ],
+    "Granite": [
+     937,
+     766
+    ],
+    "Hill": [
+     2961,
+     1759
+    ],
+    "Jefferson": [
+     3413,
+     3094
+    ],
+    "Judith Basin": [
+     475,
+     617
+    ],
+    "Lake": [
+     6938,
+     5205
+    ],
+    "Lewis & Clark": [
+     21171,
+     10236
+    ],
+    "Liberty": [
+     384,
+     325
+    ],
+    "Lincoln": [
+     3321,
+     3149
+    ],
+    "Madison": [
+     2548,
+     2372
+    ],
+    "McCone": [
+     237,
+     561
+    ],
+    "Meagher": [
+     420,
+     465
+    ],
+    "Mineral": [
+     1223,
+     1027
+    ],
+    "Missoula": [
+     36025,
+     9432
+    ],
+    "Musselshell": [
+     819,
+     1461
+    ],
+    "Park": [
+     5683,
+     3388
+    ],
+    "Petroleum": [
+     71,
+     170
+    ],
+    "Phillips": [
+     632,
+     937
+    ],
+    "Pondera": [
+     1158,
+     895
+    ],
+    "Powder River": [
+     285,
+     497
+    ],
+    "Powell": [
+     1187,
+     1192
+    ],
+    "Prairie": [
+     219,
+     320
+    ],
+    "Ravalli": [
+     11514,
+     10938
+    ],
+    "Richland": [
+     1353,
+     2055
+    ],
+    "Roosevelt": [
+     1439,
+     964
+    ],
+    "Rosebud": [
+     1231,
+     1390
+    ],
+    "Sanders": [
+     2882,
+     3332
+    ],
+    "Sheridan": [
+     716,
+     645
+    ],
+    "Silver Bow": [
+     10498,
+     3811
+    ],
+    "Stillwater": [
+     1811,
+     2507
+    ],
+    "Sweet Grass": [
+     828,
+     951
+    ],
+    "Teton": [
+     1381,
+     1293
+    ],
+    "Toole": [
+     690,
+     787
+    ],
+    "Treasure": [
+     129,
+     205
+    ],
+    "Valley": [
+     1159,
+     1393
+    ],
+    "Wheatland": [
+     355,
+     452
+    ],
+    "Wibaux": [
+     146,
+     252
+    ],
+    "Yellowstone": [
+     32871,
+     26585
+    ]
+   }
+  },
+  {
+   "id": "05107",
+   "title": "CI-132 CONSTITUTIONAL INITIATIVE NO. 132",
+   "choices": [
+    {
+     "name": "Yes",
+     "party": ""
+    },
+    {
+     "name": "No",
+     "party": ""
+    }
+   ],
+   "total": [
+    296400,
+    138501
+   ],
+   "counties": {
+    "Beaverhead": [
+     2496,
+     1957
+    ],
+    "Big Horn": [
+     2603,
+     820
+    ],
+    "Blaine": [
+     1541,
+     577
+    ],
+    "Broadwater": [
+     2138,
+     1562
+    ],
+    "Carbon": [
+     3854,
+     2145
+    ],
+    "Carter": [
+     357,
+     320
+    ],
+    "Cascade": [
+     20061,
+     8728
+    ],
+    "Chouteau": [
+     1447,
+     809
+    ],
+    "Custer": [
+     2596,
+     1552
+    ],
+    "Daniels": [
+     368,
+     409
+    ],
+    "Dawson": [
+     1975,
+     1375
+    ],
+    "Deer Lodge": [
+     3152,
+     776
+    ],
+    "Fallon": [
+     650,
+     494
+    ],
+    "Fergus": [
+     3204,
+     2161
+    ],
+    "Flathead": [
+     26300,
+     15388
+    ],
+    "Gallatin": [
+     31477,
+     12562
+    ],
+    "Garfield": [
+     281,
+     340
+    ],
+    "Glacier": [
+     3307,
+     585
+    ],
+    "Golden Valley": [
+     198,
+     186
+    ],
+    "Granite": [
+     1171,
+     611
+    ],
+    "Hill": [
+     3629,
+     1363
+    ],
+    "Jefferson": [
+     4202,
+     2564
+    ],
+    "Judith Basin": [
+     624,
+     517
+    ],
+    "Lake": [
+     8381,
+     4181
+    ],
+    "Lewis & Clark": [
+     23433,
+     8856
+    ],
+    "Liberty": [
+     490,
+     265
+    ],
+    "Lincoln": [
+     4255,
+     2568
+    ],
+    "Madison": [
+     3305,
+     1841
+    ],
+    "McCone": [
+     367,
+     483
+    ],
+    "Meagher": [
+     573,
+     344
+    ],
+    "Mineral": [
+     1573,
+     784
+    ],
+    "Missoula": [
+     38474,
+     8680
+    ],
+    "Musselshell": [
+     1299,
+     1068
+    ],
+    "Park": [
+     6494,
+     2810
+    ],
+    "Petroleum": [
+     115,
+     138
+    ],
+    "Phillips": [
+     985,
+     676
+    ],
+    "Pondera": [
+     1531,
+     650
+    ],
+    "Powder River": [
+     410,
+     429
+    ],
+    "Powell": [
+     1612,
+     960
+    ],
+    "Prairie": [
+     300,
+     283
+    ],
+    "Ravalli": [
+     14266,
+     9282
+    ],
+    "Richland": [
+     2085,
+     1484
+    ],
+    "Roosevelt": [
+     1820,
+     663
+    ],
+    "Rosebud": [
+     1721,
+     1005
+    ],
+    "Sanders": [
+     3625,
+     2801
+    ],
+    "Sheridan": [
+     1061,
+     462
+    ],
+    "Silver Bow": [
+     12062,
+     2652
+    ],
+    "Stillwater": [
+     2399,
+     2085
+    ],
+    "Sweet Grass": [
+     1064,
+     794
+    ],
+    "Teton": [
+     1747,
+     1093
+    ],
+    "Toole": [
+     945,
+     616
+    ],
+    "Treasure": [
+     211,
+     143
+    ],
+    "Valley": [
+     2042,
+     1010
+    ],
+    "Wheatland": [
+     505,
+     334
+    ],
+    "Wibaux": [
+     247,
+     212
+    ],
+    "Yellowstone": [
+     39372,
+     21048
+    ]
+   }
+  },
+  {
+   "id": "05108",
+   "title": "CI-133 CONSTITUTIONAL INITIATIVE NO. 133",
+   "choices": [
+    {
+     "name": "Yes",
+     "party": ""
+    },
+    {
+     "name": "No",
+     "party": ""
+    }
+   ],
+   "total": [
+    278282,
+    148257
+   ],
+   "counties": {
+    "Beaverhead": [
+     2264,
+     2119
+    ],
+    "Big Horn": [
+     2414,
+     894
+    ],
+    "Blaine": [
+     1386,
+     703
+    ],
+    "Broadwater": [
+     1967,
+     1657
+    ],
+    "Carbon": [
+     3690,
+     2246
+    ],
+    "Carter": [
+     318,
+     352
+    ],
+    "Cascade": [
+     18773,
+     9433
+    ],
+    "Chouteau": [
+     1318,
+     893
+    ],
+    "Custer": [
+     2344,
+     1700
+    ],
+    "Daniels": [
+     323,
+     444
+    ],
+    "Dawson": [
+     1814,
+     1428
+    ],
+    "Deer Lodge": [
+     2995,
+     917
+    ],
+    "Fallon": [
+     550,
+     565
+    ],
+    "Fergus": [
+     2838,
+     2317
+    ],
+    "Flathead": [
+     24645,
+     16188
+    ],
+    "Gallatin": [
+     30326,
+     12808
+    ],
+    "Garfield": [
+     252,
+     353
+    ],
+    "Glacier": [
+     3101,
+     706
+    ],
+    "Golden Valley": [
+     185,
+     194
+    ],
+    "Granite": [
+     1101,
+     656
+    ],
+    "Hill": [
+     3323,
+     1530
+    ],
+    "Jefferson": [
+     4009,
+     2690
+    ],
+    "Judith Basin": [
+     547,
+     577
+    ],
+    "Lake": [
+     7726,
+     4547
+    ],
+    "Lewis & Clark": [
+     21674,
+     9838
+    ],
+    "Liberty": [
+     409,
+     310
+    ],
+    "Lincoln": [
+     3969,
+     2777
+    ],
+    "Madison": [
+     2999,
+     2079
+    ],
+    "McCone": [
+     306,
+     528
+    ],
+    "Meagher": [
+     490,
+     412
+    ],
+    "Mineral": [
+     1451,
+     861
+    ],
+    "Missoula": [
+     36691,
+     9923
+    ],
+    "Musselshell": [
+     1211,
+     1111
+    ],
+    "Park": [
+     6060,
+     3027
+    ],
+    "Petroleum": [
+     100,
+     146
+    ],
+    "Phillips": [
+     846,
+     773
+    ],
+    "Pondera": [
+     1405,
+     740
+    ],
+    "Powder River": [
+     359,
+     463
+    ],
+    "Powell": [
+     1451,
+     1073
+    ],
+    "Prairie": [
+     261,
+     312
+    ],
+    "Ravalli": [
+     13197,
+     9918
+    ],
+    "Richland": [
+     1838,
+     1662
+    ],
+    "Roosevelt": [
+     1729,
+     750
+    ],
+    "Rosebud": [
+     1591,
+     1068
+    ],
+    "Sanders": [
+     3349,
+     2878
+    ],
+    "Sheridan": [
+     932,
+     517
+    ],
+    "Silver Bow": [
+     11483,
+     3017
+    ],
+    "Stillwater": [
+     2317,
+     2113
+    ],
+    "Sweet Grass": [
+     967,
+     870
+    ],
+    "Teton": [
+     1567,
+     1200
+    ],
+    "Toole": [
+     844,
+     666
+    ],
+    "Treasure": [
+     172,
+     166
+    ],
+    "Valley": [
+     1800,
+     1183
+    ],
+    "Wheatland": [
+     443,
+     382
+    ],
+    "Wibaux": [
+     212,
+     224
+    ],
+    "Yellowstone": [
+     37950,
+     21353
+    ]
+   }
+  },
+  {
+   "id": "05109",
+   "title": "I-194 INITIATIVE NO. 194",
+   "choices": [
+    {
+     "name": "Yes",
+     "party": ""
+    },
+    {
+     "name": "No",
+     "party": ""
+    }
+   ],
+   "total": [
+    277170,
+    146398
+   ],
+   "counties": {
+    "Beaverhead": [
+     2242,
+     2045
+    ],
+    "Big Horn": [
+     2161,
+     1102
+    ],
+    "Blaine": [
+     1307,
+     719
+    ],
+    "Broadwater": [
+     1918,
+     1611
+    ],
+    "Carbon": [
+     3704,
+     2148
+    ],
+    "Carter": [
+     283,
+     345
+    ],
+    "Cascade": [
+     19014,
+     9208
+    ],
+    "Chouteau": [
+     1326,
+     903
+    ],
+    "Custer": [
+     2346,
+     1681
+    ],
+    "Daniels": [
+     326,
+     416
+    ],
+    "Dawson": [
+     1806,
+     1448
+    ],
+    "Deer Lodge": [
+     2953,
+     942
+    ],
+    "Fallon": [
+     528,
+     555
+    ],
+    "Fergus": [
+     2838,
+     2319
+    ],
+    "Flathead": [
+     24137,
+     16102
+    ],
+    "Gallatin": [
+     30564,
+     12634
+    ],
+    "Garfield": [
+     234,
+     347
+    ],
+    "Glacier": [
+     2890,
+     793
+    ],
+    "Golden Valley": [
+     163,
+     208
+    ],
+    "Granite": [
+     1069,
+     640
+    ],
+    "Hill": [
+     3282,
+     1541
+    ],
+    "Jefferson": [
+     4003,
+     2598
+    ],
+    "Judith Basin": [
+     523,
+     533
+    ],
+    "Lake": [
+     7629,
+     4537
+    ],
+    "Lewis & Clark": [
+     21992,
+     9299
+    ],
+    "Liberty": [
+     400,
+     297
+    ],
+    "Lincoln": [
+     3867,
+     2805
+    ],
+    "Madison": [
+     3005,
+     2023
+    ],
+    "McCone": [
+     297,
+     517
+    ],
+    "Meagher": [
+     478,
+     424
+    ],
+    "Mineral": [
+     1422,
+     833
+    ],
+    "Missoula": [
+     36905,
+     9288
+    ],
+    "Musselshell": [
+     1175,
+     1117
+    ],
+    "Park": [
+     6183,
+     2881
+    ],
+    "Petroleum": [
+     107,
+     139
+    ],
+    "Phillips": [
+     817,
+     763
+    ],
+    "Pondera": [
+     1381,
+     711
+    ],
+    "Powder River": [
+     366,
+     436
+    ],
+    "Powell": [
+     1434,
+     1076
+    ],
+    "Prairie": [
+     258,
+     311
+    ],
+    "Ravalli": [
+     13149,
+     9643
+    ],
+    "Richland": [
+     1730,
+     1751
+    ],
+    "Roosevelt": [
+     1659,
+     816
+    ],
+    "Rosebud": [
+     1524,
+     1124
+    ],
+    "Sanders": [
+     3320,
+     2860
+    ],
+    "Sheridan": [
+     929,
+     493
+    ],
+    "Silver Bow": [
+     11232,
+     3202
+    ],
+    "Stillwater": [
+     2291,
+     2113
+    ],
+    "Sweet Grass": [
+     977,
+     822
+    ],
+    "Teton": [
+     1607,
+     1158
+    ],
+    "Toole": [
+     855,
+     650
+    ],
+    "Treasure": [
+     178,
+     150
+    ],
+    "Valley": [
+     1821,
+     1115
+    ],
+    "Wheatland": [
+     437,
+     346
+    ],
+    "Wibaux": [
+     180,
+     249
+    ],
+    "Yellowstone": [
+     37948,
+     21611
+    ]
+   }
+  }
+ ]
+}
